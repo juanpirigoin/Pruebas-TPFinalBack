@@ -26,9 +26,9 @@ const alumnoSchema = new mongoose.Schema({
 
     //este campo no esta definido en el diagrama de la base de datos, pero lo agrego para poder filtrar por edad
     
-    edad: {
+   fechaNacimiento: {
         type: Number,
-        required: [true, "La edad es obligatoria"],     
+        required: [true, "La fecha de nacimiento es obligatoria"],     
     },
 
     //ver este campo si se pone asi
