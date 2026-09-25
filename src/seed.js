@@ -34,18 +34,18 @@ await Asistencia.SyncIndexes();
 const [
     curso1, curso2, curso3, curso4, curso5, curso6, curso7, curso8, curso9, curso10, curso11, curso12
 ] = await Curso.create([
-    { nombreCurso: "1°A", nivel: "secundario", turno: "mañana" },
-    { nombreCurso: "1°B", nivel: "secundario", turno: "tarde" },
-    { nombreCurso: "2°A", nivel: "secundario", turno: "mañana" },
-    { nombreCurso: "2°B", nivel: "secundario", turno: "tarde" },
-    { nombreCurso: "3°A", nivel: "secundario", turno: "mañana" },
-    { nombreCurso: "3°B", nivel: "secundario", turno: "tarde" },
-    { nombreCurso: "4°A", nivel: "secundario", turno: "mañana" },
-    { nombreCurso: "4°B", nivel: "secundario", turno: "tarde" },
-    { nombreCurso: "5°A", nivel: "secundario", turno: "mañana" },
-    { nombreCurso: "5°B", nivel: "secundario", turno: "tarde" },
-    { nombreCurso: "6°A", nivel: "secundario", turno: "mañana" },
-    { nombreCurso: "6°B", nivel: "secundario", turno: "tarde" }
+    { nombre: "1°A", nivel: "secundario", turno: "mañana" },
+    { nombre: "1°B", nivel: "secundario", turno: "tarde" },
+    { nombre: "2°A", nivel: "secundario", turno: "mañana" },
+    { nombre: "2°B", nivel: "secundario", turno: "tarde" },
+    { nombre: "3°A", nivel: "secundario", turno: "mañana" },
+    { nombre: "3°B", nivel: "secundario", turno: "tarde" },
+    { nombre: "4°A", nivel: "secundario", turno: "mañana" },
+    { nombre: "4°B", nivel: "secundario", turno: "tarde" },
+    { nombre: "5°A", nivel: "secundario", turno: "mañana" },
+    { nombre: "5°B", nivel: "secundario", turno: "tarde" },
+    { nombre: "6°A", nivel: "secundario", turno: "mañana" },
+    { nombre: "6°B", nivel: "secundario", turno: "tarde" }
 ]);
 
 const [ 

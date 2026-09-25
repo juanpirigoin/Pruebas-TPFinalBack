@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const cursoSchema = new mongoose.Schema({
-    nombreCurso: {
+    nombre: {
         type: String,
         required: [true, "El nombre del curso es obligatorio"],
         trim: true,

@@ -16,13 +16,13 @@ const usuarioSchema = new mongoose.Schema({
         enum: [["padre", "alumno", "docente", "administrativo"], "El rol es obligatorio"],
     },
     //solo aplica a los padres, para poder filtrar a los alumnos que son hijos de ese padre
-    id_alumno: {
+    idAlumno: {
         type: [mongoose.Schema.Types.ObjectId],
         required: [true, "El id del alumno es obligatorio"],
         ref: "Alumno"
     },
     //solo aplica a los docentes, para poder filtrar a los cursos que dicta ese docente
-    id_curso: {
+    idCurso: {
         type: [mongoose.Schema.Types.ObjectId],
         required: [true, "El id del curso es obligatorio"],
         ref: "Curso"

@@ -27,13 +27,13 @@ const alumnoSchema = new mongoose.Schema({
     //este campo no esta definido en el diagrama de la base de datos, pero lo agrego para poder filtrar por edad
     
    fechaNacimiento: {
-        type: Number,
+        type: Date,
         required: [true, "La fecha de nacimiento es obligatoria"],     
     },
 
     //ver este campo si se pone asi
 
-    id_curso: {
+    idCurso: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Curso",
         required: [true, "El curso es obligatorio"]

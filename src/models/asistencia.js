@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
 const asistenciaSchema = new mongoose.Schema({
-    fechaAsistencia: {
+    idAlumno: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Alumno",
+        required: [true, "El alumno es obligatorio"]
+    },
+    fecha: {
         type: Date,
         required: [true, "La fecha de la asistencia es obligatoria"]
     },

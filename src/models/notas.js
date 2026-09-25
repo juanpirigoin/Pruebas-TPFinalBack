@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const notaSchema = new mongoose.Schema({
-    nombreNota: {
-        type: String,
-        required: [true, "El nombre de la nota es obligatorio"],    
+    nombre: {
+        type: String, 
         trim: true,
         minlength: [3, "El nombre de la nota debe tener al menos 3 caracteres"],
         maxlength: [50, "El nombre de la nota no puede exceder los 50 caracteres"]
@@ -25,17 +24,22 @@ const notaSchema = new mongoose.Schema({
         type: Date,
         required: [true, "La fecha de la nota es obligatoria"]
     },
-    id_referencia: {
+    idActividad: {
         type: mongoose.Schema.Types.ObjectId,   
-        refPath: "referenciaModel"
+        ref: "Actividad"
     },
-    id_materia: {
+    idEvaluacion: {
+        type: mongoose.Schema.Types.ObjectId,   
+        ref: "Evaluacion"
+    },
+    idMateria: {
         type: mongoose.Schema.Types.ObjectId,   
         ref: "Materia"
     },
-    id_unidad: {
+    idAlumno: {
         type: mongoose.Schema.Types.ObjectId,   
-        ref: "Unidad"
+        ref: "Alumno",
+        required: [true, "El alumno es obligatorio"]
     }
 });
 

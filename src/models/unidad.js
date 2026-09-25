@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const unidadSchema = new mongoose.Schema({
-    nombreUnidad: {
+    nombre: {
         type: String,
         required: [true, "El nombre de la unidad es obligatorio"],
         trim: true,
@@ -10,12 +10,11 @@ const unidadSchema = new mongoose.Schema({
     },
     descripcion: {
         type: String,
-        required: [true, "La descripción de la unidad es obligatoria"],
         trim: true,
         minlength: [3, "La descripción de la unidad debe tener al menos 3 caracteres"],
         maxlength: [300, "La descripción de la unidad no puede exceder los 300 caracteres"]
     },
-    id_materia: {
+    idMateria: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Materia",
         required: [true, "La materia es obligatoria"]

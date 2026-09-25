@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const evaluacionSchema = new mongoose.Schema({
-    nombreEvaluacion: {
+    nombre: {
         type: String,
         required: [true, "El nombre de la evaluación es obligatorio"],  
         trim: true,
@@ -15,11 +15,11 @@ const evaluacionSchema = new mongoose.Schema({
         minlength: [3, "El tipo de evaluación debe tener al menos 3 caracteres"],
         maxlength: [20, "El tipo de evaluación no puede exceder los 50 caracteres"]
     },
-    fechaEvaluacion: {
+    fecha: {
         type: Date,
         required: [true, "La fecha de la evaluación es obligatoria"]
     },
-    id_unidad: {
+    idUnidad: {
         type: mongoose.Schema.Types.ObjectId,   
         ref: "Unidad",
         required: [true, "La unidad es obligatoria"]

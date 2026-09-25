@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const actividadSchema = new mongoose.Schema({
-    nombreActividad: {
+    nombre: {
         type: String,
         required: [true, "El nombre de la actividad es obligatorio"],  
         trim: true,
@@ -15,11 +15,11 @@ const actividadSchema = new mongoose.Schema({
         minlength: [3, "El tipo de actividad debe tener al menos 3 caracteres"],
         maxlength: [20, "El tipo de actividad no puede exceder los 50 caracteres"]
     },
-    fechaActividad: {
+    fecha: {
         type: Date,
         required: [true, "La fecha de la actividad es obligatoria"]
     },
-    id_unidad: {
+    idUnidad: {
         type: mongoose.Schema.Types.ObjectId,   
         ref: "Unidad",
         required: [true, "La unidad es obligatoria"]

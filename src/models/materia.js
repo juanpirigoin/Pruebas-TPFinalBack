@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const materiaSchema = new mongoose.Schema({
-    nombreMateria: {
+    nombre: {
         type: String,
         required: [true, "El nombre de la materia es obligatorio"],
         trim: true,
@@ -9,13 +9,12 @@ const materiaSchema = new mongoose.Schema({
         maxlength: [50, "El nombre de la materia no puede exceder los 50 caracteres"]
     },
     area: {
-        type: String,
-        required: [true, "El área de la materia es obligatoria"],       
+        type: String,     
         trim: true,
         minlength: [3, "El área de la materia debe tener al menos 3 caracteres"],
         maxlength: [50, "El área de la materia no puede exceder los 50 caracteres"]
     },
-    id_curso: {
+    idCurso: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Curso",
         required: [true, "El curso es obligatorio"]
