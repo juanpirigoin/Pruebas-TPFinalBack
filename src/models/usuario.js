@@ -4,7 +4,7 @@ const usuarioSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "El email es obligatorio"],
-        unique: [true, "El email ya está registrado"],
+        unique: true
     },
     password: {
         type: String,
@@ -13,18 +13,16 @@ const usuarioSchema = new mongoose.Schema({
     rol: {
         type: String,
         required: [true, "El rol es obligatorio"],
-        enum: [["padre", "alumno", "docente", "administrativo"], "El rol es obligatorio"],
+        enum: ["padre", "alumno", "docente", "administrativo"]
     },
     //solo aplica a los padres, para poder filtrar a los alumnos que son hijos de ese padre
     idAlumno: {
         type: [mongoose.Schema.Types.ObjectId],
-        required: [true, "El id del alumno es obligatorio"],
         ref: "Alumno"
     },
     //solo aplica a los docentes, para poder filtrar a los cursos que dicta ese docente
     idCurso: {
         type: [mongoose.Schema.Types.ObjectId],
-        required: [true, "El id del curso es obligatorio"],
         ref: "Curso"
     }
 });

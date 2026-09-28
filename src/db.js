@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-
-const MONGO_URI = "mongodb://localhost:27017/escuela";
+import { MONGO_URI } from "./utils/config.js";
 
 export const connectDB = async () => {
     try {
@@ -11,3 +10,5 @@ export const connectDB = async () => {
         process.exit(1);
     }
 }
+
+export default connectDB;
