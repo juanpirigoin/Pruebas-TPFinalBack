@@ -1,4 +1,4 @@
-import Alumno from './models/alumno.js'
+import alumnoRoutes from './routes/alumnoRoutes.js'
 import express from 'express'
 import connectDB from './db.js'
 import { PORT } from './utils/config.js'
@@ -8,16 +8,8 @@ const app = express()
 await connectDB()
 app.use(express.json())
 
-//Rutas
-app.get("/alumno", async (req, res) => {
-  try {
-    const alumnos = await Alumno.find(); 
-    res.status(200).json(alumnos);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al obtener alumnos" });
-  }
-});
+//Agrupadores de rutas
+app.use('/api/alumnos', alumnoRoutes)
 
 
 // Middleware para manejar rutas no encontradas
