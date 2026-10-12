@@ -25,12 +25,12 @@ export const crearActividadService = async (actividadData) => {
         const nuevaActividad = await Actividad.create(actividadData);
         return nuevaActividad;
     } catch (error) {
-
+        throw new Error(`Error al crear la actividad: ${error.message}`);
     }
 }
 
 //Update actividad
-export const actualizarAlumnoService = async (id, actividadData) => {
+export const actualizarActividadService = async (id, actividadData) => {
     try {
         return Actividad.findByIdAndUpdate(
             id,
@@ -38,7 +38,7 @@ export const actualizarAlumnoService = async (id, actividadData) => {
             { new: true, runValidators: true }
         )
     } catch (error) {
-     
+        throw new Error(`Error al actualizar la actividad: ${error.message}`);
     }
 }
 
