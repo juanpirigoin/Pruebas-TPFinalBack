@@ -8,8 +8,8 @@ export const listarAlumnosService = async ({ idCurso } = {}) => {
     if (idCurso) {
         filtro.idCurso = new mongoose.Types.ObjectId(idCurso.trim());
     }
-    return Alumno.find(filtro).populate("idCurso", "nombre nivel turno").sort({ apellido: 1, nombre: 1 });
-};
+    return await Alumno.find(filtro).populate("idCurso", "nombre nivel turno").sort({ apellido: 1, nombre: 1 });
+}
 
 //Get alumno por id
 export const obtenerAlumnoPorIdService = async (id) => {
