@@ -50,7 +50,7 @@ export const crearNotaService = async (notaData) => {
 export const actualizarNotaService = async (id, notaData) => {
     try {
         return await Nota.findByIdAndUpdate(
-            id,
+            {_id: id},
             notaData,
             { new: true, runValidators: true }
         )

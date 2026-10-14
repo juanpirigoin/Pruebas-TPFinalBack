@@ -30,7 +30,7 @@ export const crearCursoService = async (cursoData) => {
 export const actualizarCursoService = async (id, cursoData) => {
     try {
         return Curso.findByIdAndUpdate(
-            id,
+            {_id: id},
             cursoData,
             { new: true, runValidators: true }
         )

@@ -30,7 +30,7 @@ export const crearUnidadService = async (unidadData) => {
 export const actualizarUnidadService = async (id, unidadData) => {
     try {
         return await Unidad.findByIdAndUpdate(
-            id,
+            {_id: id},
             unidadData,
             { new: true, runValidators: true }
         )

@@ -33,7 +33,7 @@ export const crearActividadService = async (actividadData) => {
 export const actualizarActividadService = async (id, actividadData) => {
     try {
         return Actividad.findByIdAndUpdate(
-            id,
+            {_id: id},
             actividadData,
             { new: true, runValidators: true }
         )

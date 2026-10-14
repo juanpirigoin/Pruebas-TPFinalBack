@@ -35,7 +35,7 @@ export const crearUsuarioService = async (usuarioData) => {
 export const actualizarUsuarioService = async (id, usuarioData) => {
     try {
         return await Usuario.findByIdAndUpdate(
-            id,
+            {_id: id},
             usuarioData,
             { new: true, runValidators: true }
         )

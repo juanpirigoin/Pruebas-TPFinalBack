@@ -34,7 +34,7 @@ export const crearAsistenciaService = async (asistenciaData) => {
 export const actualizarAsistenciaService = async (id, asistenciaData) => {
     try {
         return await Asistencia.findByIdAndUpdate(
-            id,
+            {_id: id},
             asistenciaData,
             { new: true, runValidators: true }
         )

@@ -30,7 +30,7 @@ export const crearMateriaService = async (materiaData) => {
 export const actualizarMateriaService = async (id, materiaData) => {
     try {
         return await Materia.findByIdAndUpdate(
-            id,
+            {_id: id},
             materiaData,
             { new: true, runValidators: true }
         )

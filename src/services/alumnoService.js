@@ -36,7 +36,7 @@ export const crearAlumnoService = async (alumnoData) => {
 export const actualizarAlumnoService = async (id, alumnoData) => {
     try {
         return Alumno.findByIdAndUpdate(
-            id,
+            {_id: id},
             alumnoData,
             { new: true, runValidators: true }
         )

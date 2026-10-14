@@ -30,7 +30,7 @@ export const crearEvaluacionService = async (evaluacionData) => {
 export const actualizarEvaluacionService = async (id, evaluacionData) => {
     try {
         return await Evaluacion.findByIdAndUpdate(
-            id,
+            {_id: id},
             evaluacionData,
             { new: true, runValidators: true }
         )
