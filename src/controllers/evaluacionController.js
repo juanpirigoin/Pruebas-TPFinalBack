@@ -1,8 +1,8 @@
-import { listarEvaluacionesService, obtenerEvaluacionPorIdService, crearEvaluacionService, actualizarEvaluacionService, eliminarEvaluacionService } from '../services/evaluacionService.js'
+import { listarEvaluacionService, obtenerEvaluacionPorIdService, crearEvaluacionService, actualizarEvaluacionService, eliminarEvaluacionService } from '../services/evaluacionService.js'
 
-export const listarEvaluacionesController = async (req, res) => {
+export const listarEvaluacionController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const evaluaciones = await listarEvaluacionesService(req.query);
+    const evaluaciones = await listarEvaluacionService(req.query);
     res.status(200).json(evaluaciones);
 }
 

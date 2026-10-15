@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import Curso from '../models/curso.js'
 
 //Get all cursos
-export const listarCursosService = async () => {
+export const listarCursoService = async () => {
     return await Curso.find()
 }
 
@@ -19,9 +19,9 @@ export const crearCursoService = async (cursoData) => {
     } catch (error) {
         //error en duplicado de curso??? no tengo clave UNIQUE
         // if (error.code === 11000) {
-        //     throw new Error(`El DNI: ${alumnoData.dni} alumno ya existe`);
+        //     throw new ErrorApp(`El DNI: ${alumnoData.dni} alumno ya existe`);
         // } else {
-        //     throw new Error(`Error al crear el alumno: ${error.message}`);
+        //     throw new ErrorApp(`Error al crear el alumno: ${error.message}`);
         // }
     }
 }
@@ -30,7 +30,7 @@ export const crearCursoService = async (cursoData) => {
 export const actualizarCursoService = async (id, cursoData) => {
     try {
         return Curso.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             cursoData,
             { new: true, runValidators: true }
         )
@@ -44,6 +44,6 @@ export const eliminarCursoService = async (id) => {
     try {
         return Curso.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar el cursoo: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar el cursoo: ${error.message}`);
     }
 }

@@ -1,8 +1,8 @@
-import { listarNotasService, obtenerNotaPorIdService, crearNotaService, actualizarNotaService, eliminarNotaService } from '../services/notaService.js'
+import { listarNotaService, obtenerNotaPorIdService, crearNotaService, actualizarNotaService, eliminarNotaService } from '../services/notaService.js'
 
-export const listarNotasController = async (req, res) => {
+export const listarNotaController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const notas = await listarNotasService(req.query);
+    const notas = await listarNotaService(req.query);
     res.status(200).json(notas);
 }
 

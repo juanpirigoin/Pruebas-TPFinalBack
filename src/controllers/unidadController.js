@@ -1,8 +1,8 @@
-import { listarUnidadesService, obtenerUnidadPorIdService, crearUnidadService, actualizarUnidadService, eliminarUnidadService } from '../services/unidadService.js'
+import { listarUnidadService, obtenerUnidadPorIdService, crearUnidadService, actualizarUnidadService, eliminarUnidadService } from '../services/unidadService.js'
 
-export const listarUnidadesController = async (req, res) => {
+export const listarUnidadController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const unidades = await listarUnidadesService(req.query);
+    const unidades = await listarUnidadService(req.query);
     res.status(200).json(unidades);
 }
 

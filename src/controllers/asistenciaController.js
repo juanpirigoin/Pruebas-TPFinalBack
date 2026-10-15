@@ -1,8 +1,8 @@
-import { listarAsistenciasService, obtenerAsistenciaPorIdService, crearAsistenciaService, actualizarAsistenciaService, eliminarAsistenciaService } from '../services/asistenciaService.js'
+import { listarAsistenciaService, obtenerAsistenciaPorIdService, crearAsistenciaService, actualizarAsistenciaService, eliminarAsistenciaService } from '../services/asistenciaService.js'
 
-export const listarAsistenciasController = async (req, res) => {
+export const listarAsistenciaController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const asistencias = await listarAsistenciasService(req.query);
+    const asistencias = await listarAsistenciaService(req.query);
     res.status(200).json(asistencias);
 }
 

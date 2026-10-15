@@ -1,14 +1,14 @@
-import { listarActividadesService, obtenerActividadPorIdService, crearActividadService, actualizarActividadService, eliminarActividadService } from '../services/actividadService.js'
+import { listarActividadService, obtenerActividadPorIdService, crearActividadService, actualizarActividadService, eliminarActividadService } from '../services/actividadService.js'
 
-export const listarActividadesController = async (req, res) => {
+export const listarActividadController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const actividades = await listarActividadesService(req.query);
+    const actividades = await listarActividadService(req.query);
     res.status(200).json(actividades);
 }
 
 
-export const obtenerActividadesPorIdController = async (req, res) => {
-    const actividad = await obtenerActividadesPorIdService(req.params.id);
+export const obtenerActividadPorIdController = async (req, res) => {
+    const actividad = await obtenerActividadPorIdService(req.params.id);
     if (!actividad) {
         return res.status(404).json({ error: "Actividad no encontrada" });
     }

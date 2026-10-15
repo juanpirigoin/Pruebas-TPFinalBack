@@ -3,7 +3,7 @@ import Unidad from '../models/unidad.js'
 import Materia from '../models/materia.js'
 
 //Get all unidades por materia
-export const listarUnidadesService = async ({ idMateria } = {}) => {
+export const listarUnidadService = async ({ idMateria } = {}) => {
     const filtro = {};
     if (idMateria) {
         filtro.idMateria = new mongoose.Types.ObjectId(idMateria.trim());
@@ -22,7 +22,7 @@ export const crearUnidadService = async (unidadData) => {
         const nuevaUnidad = await Unidad.create(unidadData);
         return nuevaUnidad;
     } catch (error) {
-        throw new Error(`Error al crear la unidad: ${error.message}`);
+        throw new ErrorApp(`Error al crear la unidad: ${error.message}`);
     }
 }
 
@@ -30,12 +30,12 @@ export const crearUnidadService = async (unidadData) => {
 export const actualizarUnidadService = async (id, unidadData) => {
     try {
         return await Unidad.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             unidadData,
             { new: true, runValidators: true }
         )
     } catch (error) {
-        throw new Error(`Error al actualizar la unidad: ${error.message}`);
+        throw new ErrorApp(`Error al actualizar la unidad: ${error.message}`);
     }
 }
 
@@ -44,6 +44,6 @@ export const eliminarUnidadService = async (id) => {
     try {
         return await Unidad.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar la unidad: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar la unidad: ${error.message}`);
     }
 }

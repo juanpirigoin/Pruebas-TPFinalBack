@@ -1,8 +1,8 @@
-import { listarCursosService, obtenerCursoPorIdService, crearCursoService, actualizarCursoService, eliminarCursoService } from '../services/cursoService.js'
+import { listarCursoService, obtenerCursoPorIdService, crearCursoService, actualizarCursoService, eliminarCursoService } from '../services/cursoService.js'
 
-export const listarCursosController = async (req, res) => {
+export const listarCursoController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const cursos = await listarCursosService(req.query);
+    const cursos = await listarCursoService(req.query);
     res.status(200).json(cursos);
 }
 

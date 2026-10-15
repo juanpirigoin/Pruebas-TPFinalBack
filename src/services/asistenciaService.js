@@ -3,7 +3,7 @@ import Asistencia from '../models/asistencia.js'
 import Alumno from '../models/alumno.js'
 
 //Get all asistencias por alumno
-export const listarAsistenciasService = async ({ idAlumno } = {}) => {
+export const listarAsistenciaService = async ({ idAlumno } = {}) => {
     const filtro = {};
     if (idAlumno) {
         filtro.idAlumno = new mongoose.Types.ObjectId(idAlumno.trim());
@@ -22,7 +22,7 @@ export const crearAsistenciaService = async (asistenciaData) => {
         const nuevaAsistencia = await Asistencia.create(asistenciaData);
         return nuevaAsistencia;
     } catch (error) {
-        throw new Error(`Error al crear la asistencia: ${error.message}`);
+        throw new ErrorApp(`Error al crear la asistencia: ${error.message}`);
     }
 }
 
@@ -34,12 +34,12 @@ export const crearAsistenciaService = async (asistenciaData) => {
 export const actualizarAsistenciaService = async (id, asistenciaData) => {
     try {
         return await Asistencia.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             asistenciaData,
             { new: true, runValidators: true }
         )
     } catch (error) {
-        throw new Error(`Error al actualizar la asistencia: ${error.message}`);
+        throw new ErrorApp(`Error al actualizar la asistencia: ${error.message}`);
     }
 }
 
@@ -48,6 +48,6 @@ export const eliminarAsistenciaService = async (id) => {
     try {
         return await Asistencia.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar la asistencia: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar la asistencia: ${error.message}`);
     }
 }

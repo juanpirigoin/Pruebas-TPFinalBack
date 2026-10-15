@@ -1,8 +1,8 @@
-import { listarMateriasService, obtenerMateriaPorIdService, crearMateriaService, actualizarMateriaService, eliminarMateriaService } from '../services/materiaService.js'
+import { listarMateriaService, obtenerMateriaPorIdService, crearMateriaService, actualizarMateriaService, eliminarMateriaService } from '../services/materiaService.js'
 
-export const listarMateriasController = async (req, res) => {
+export const listarMateriaController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const materias = await listarMateriasService(req.query);
+    const materias = await listarMateriaService(req.query);
     res.status(200).json(materias);
 }
 

@@ -4,7 +4,7 @@ import Alumno from '../models/alumno.js'
 import Curso from '../models/curso.js'
 
 //Get all usuarios
-export const listarUsuariosService = async ({ rol } = {}) => {
+export const listarUsuarioService = async ({ rol } = {}) => {
     const filtro = {};
     if (rol) {
         filtro.rol = rol.trim();
@@ -24,9 +24,9 @@ export const crearUsuarioService = async (usuarioData) => {
         return nuevoUsuario;
     } catch (error) {
         if (error.code === 11000) {
-            throw new Error(`El email: ${usuarioData.email} ya existe`);
+            throw new ErrorApp(`El email: ${usuarioData.email} ya existe`);
         } else {
-            throw new Error(`Error al crear el usuario: ${error.message}`);
+            throw new ErrorApp(`Error al crear el usuario: ${error.message}`);
         }
     }
 }
@@ -35,15 +35,15 @@ export const crearUsuarioService = async (usuarioData) => {
 export const actualizarUsuarioService = async (id, usuarioData) => {
     try {
         return await Usuario.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             usuarioData,
             { new: true, runValidators: true }
         )
     } catch (error) {
         if (error.code === 11000) {
-            throw new Error(`El email: ${usuarioData.email} ya existe`);
+            throw new ErrorApp(`El email: ${usuarioData.email} ya existe`);
         } else {
-            throw new Error(`Error al actualizar el usuario: ${error.message}`);
+            throw new ErrorApp(`Error al actualizar el usuario: ${error.message}`);
         }
     }
 }
@@ -53,6 +53,6 @@ export const eliminarUsuarioService = async (id) => {
     try {
         return await Usuario.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar el usuario: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar el usuario: ${error.message}`);
     }
 }

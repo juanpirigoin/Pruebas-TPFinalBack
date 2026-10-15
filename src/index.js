@@ -1,4 +1,13 @@
 import alumnoRoutes from './routes/alumnoRoutes.js'
+import unidadRoutes from './routes/unidadRoutes.js'
+import cursoRoutes from './routes/cursoRoutes.js'
+import materiaRoutes from './routes/materiaRoutes.js'
+import actividadRoutes from './routes/actividadRoutes.js'
+import evaluacionRoutes from './routes/evaluacionRoutes.js'
+import notaRoutes from './routes/notaRoutes.js'
+import usuarioRoutes from './routes/usuarioRoutes.js'
+import asistenciaRoutes from './routes/asistenciaRoutes.js'
+
 import express from 'express'
 import connectDB from './db.js'
 import { PORT } from './utils/config.js'
@@ -11,6 +20,8 @@ app.use(express.json())
 
 //Agrupadores de rutas
 app.use('/api/alumnos', alumnoRoutes)
+app.use('/api/unidades', unidadRoutes)
+app.use('/api/cursos', cursoRoutes)
 app.use('/api/asistencias', asistenciaRoutes)
 app.use('/api/materias', materiaRoutes)
 app.use('/api/actividades', actividadRoutes)

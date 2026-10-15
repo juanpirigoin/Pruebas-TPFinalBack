@@ -3,7 +3,7 @@ import Alumno from '../models/alumno.js'
 import Curso from '../models/curso.js'
 
 //Get all alumnos por curso
-export const listarAlumnosService = async ({ idCurso } = {}) => {
+export const listarAlumnoService = async ({ idCurso } = {}) => {
     const filtro = {};
     if (idCurso) {
         filtro.idCurso = new mongoose.Types.ObjectId(idCurso.trim());
@@ -24,9 +24,9 @@ export const crearAlumnoService = async (alumnoData) => {
     } catch (error) {
         //error en duplicado de DNI
         if (error.code === 11000) {
-            throw new Error(`El DNI: ${alumnoData.dni} alumno ya existe`);
+            throw new ErrorApp(`El DNI: ${alumnoData.dni} alumno ya existe`);
         } else {
-            throw new Error(`Error al crear el alumno: ${error.message}`);
+            throw new ErrorApp(`Error al crear el alumno: ${error.message}`);
         }
 
     }
@@ -36,16 +36,16 @@ export const crearAlumnoService = async (alumnoData) => {
 export const actualizarAlumnoService = async (id, alumnoData) => {
     try {
         return Alumno.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             alumnoData,
             { new: true, runValidators: true }
         )
     } catch (error) {
         //error en duplicado de DNI
         if (error.code === 11000) {
-            throw new Error(`El DNI: ${alumnoData.dni} alumno ya existe`);
+            throw new ErrorApp(`El DNI: ${alumnoData.dni} ingresado ya pertenece a otro alumno`, 409);
         } else {
-            throw new Error(`Error al actualizar el alumno: ${error.message}`);
+            throw new ErrorApp(`Error al actualizar el alumno: ${error.message}`);
         }
     }
 }
@@ -55,6 +55,6 @@ export const eliminarAlumnoService = async (id) => {
     try {
         return Alumno.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar el alumno: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar el alumno: ${error.message}`);
     }
 }

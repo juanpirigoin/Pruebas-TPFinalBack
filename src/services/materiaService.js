@@ -3,7 +3,7 @@ import Materia from '../models/materia.js'
 import Curso from '../models/curso.js'
 
 //Get all materias por curso
-export const listarMateriasService = async ({ idCurso } = {}) => {
+export const listarMateriaService = async ({ idCurso } = {}) => {
     const filtro = {};
     if (idCurso) {
         filtro.idCurso = new mongoose.Types.ObjectId(idCurso.trim());
@@ -22,7 +22,7 @@ export const crearMateriaService = async (materiaData) => {
         const nuevaMateria = await Materia.create(materiaData);
         return nuevaMateria;
     } catch (error) {
-        throw new Error(`Error al crear la materia: ${error.message}`);
+        throw new ErrorApp(`Error al crear la materia: ${error.message}`);
     }
 }
 
@@ -30,12 +30,12 @@ export const crearMateriaService = async (materiaData) => {
 export const actualizarMateriaService = async (id, materiaData) => {
     try {
         return await Materia.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             materiaData,
             { new: true, runValidators: true }
         )
     } catch (error) {
-        throw new Error(`Error al actualizar la materia: ${error.message}`);
+        throw new ErrorApp(`Error al actualizar la materia: ${error.message}`);
     }
 }
 
@@ -44,6 +44,6 @@ export const eliminarMateriaService = async (id) => {
     try {
         return await Materia.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar la materia: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar la materia: ${error.message}`);
     }
 }

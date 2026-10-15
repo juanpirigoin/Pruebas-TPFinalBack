@@ -4,11 +4,16 @@ const usuarioSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "El email es obligatorio"],
-        unique: true
+        unique: true,
+        trim: true,
+        lowercase: true,
+        match: [/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "El email no es válido"]
     },
     password: {
         type: String,
         required: [true, "La contraseña es obligatoria"],
+        trim: true,
+        
     },
     rol: {
         type: String,
@@ -25,6 +30,6 @@ const usuarioSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "Curso"
     }
-});
+}, { timestamps: true });
 
 export default mongoose.model("Usuario", usuarioSchema);

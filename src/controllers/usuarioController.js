@@ -1,8 +1,8 @@
-import { listarUsuariosService, obtenerUsuarioPorIdService, crearUsuarioService, actualizarUsuarioService, eliminarUsuarioService } from '../services/usuarioService.js'
+import { listarUsuarioService, obtenerUsuarioPorIdService, crearUsuarioService, actualizarUsuarioService, eliminarUsuarioService } from '../services/usuarioService.js'
 
-export const listarUsuariosController = async (req, res) => {
+export const listarUsuarioController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const usuarios = await listarUsuariosService(req.query);
+    const usuarios = await listarUsuarioService(req.query);
     res.status(200).json(usuarios);
 }
 

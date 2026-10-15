@@ -6,7 +6,7 @@ import Actividad from '../models/actividad.js'
 import Evaluacion from '../models/evaluacion.js'
 
 //Get all notas
-export const listarNotasService = async ({ idAlumno, idMateria, idActividad, idEvaluacion } = {}) => {
+export const listarNotaService = async ({ idAlumno, idMateria, idActividad, idEvaluacion } = {}) => {
     const filtro = {};
     if (idAlumno) {
         filtro.idAlumno = new mongoose.Types.ObjectId(idAlumno.trim());
@@ -42,7 +42,7 @@ export const crearNotaService = async (notaData) => {
         const nuevaNota = await Nota.create(notaData);
         return nuevaNota;
     } catch (error) {
-        throw new Error(`Error al crear la nota: ${error.message}`);
+        throw new ErrorApp(`Error al crear la nota: ${error.message}`);
     }
 }
 
@@ -50,12 +50,12 @@ export const crearNotaService = async (notaData) => {
 export const actualizarNotaService = async (id, notaData) => {
     try {
         return await Nota.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             notaData,
             { new: true, runValidators: true }
         )
     } catch (error) {
-        throw new Error(`Error al actualizar la nota: ${error.message}`);
+        throw new ErrorApp(`Error al actualizar la nota: ${error.message}`);
     }
 }
 
@@ -64,6 +64,6 @@ export const eliminarNotaService = async (id) => {
     try {
         return await Nota.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar la nota: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar la nota: ${error.message}`);
     }
 }

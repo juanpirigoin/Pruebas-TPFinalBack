@@ -3,7 +3,7 @@ import Evaluacion from '../models/evaluacion.js'
 import Unidad from '../models/unidad.js'
 
 //Get all evaluaciones por unidad
-export const listarEvaluacionesService = async ({ idUnidad } = {}) => {
+export const listarEvaluacionService = async ({ idUnidad } = {}) => {
     const filtro = {};
     if (idUnidad) {
         filtro.idUnidad = new mongoose.Types.ObjectId(idUnidad.trim());
@@ -22,7 +22,7 @@ export const crearEvaluacionService = async (evaluacionData) => {
         const nuevaEvaluacion = await Evaluacion.create(evaluacionData);
         return nuevaEvaluacion;
     } catch (error) {
-        throw new Error(`Error al crear la evaluación: ${error.message}`);
+        throw new ErrorApp(`Error al crear la evaluación: ${error.message}`);
     }
 }
 
@@ -30,12 +30,12 @@ export const crearEvaluacionService = async (evaluacionData) => {
 export const actualizarEvaluacionService = async (id, evaluacionData) => {
     try {
         return await Evaluacion.findByIdAndUpdate(
-            {_id: id},
+            { _id: id },
             evaluacionData,
             { new: true, runValidators: true }
         )
     } catch (error) {
-        throw new Error(`Error al actualizar la evaluación: ${error.message}`);
+        throw new ErrorApp(`Error al actualizar la evaluación: ${error.message}`);
     }
 }
 
@@ -44,6 +44,6 @@ export const eliminarEvaluacionService = async (id) => {
     try {
         return await Evaluacion.findByIdAndDelete(id);
     } catch (error) {
-        throw new Error(`Error al eliminar la evaluación: ${error.message}`);
+        throw new ErrorApp(`Error al eliminar la evaluación: ${error.message}`);
     }
 }
