@@ -7,6 +7,7 @@ import evaluacionRoutes from './routes/evaluacionRoutes.js'
 import notaRoutes from './routes/notaRoutes.js'
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import asistenciaRoutes from './routes/asistenciaRoutes.js'
+import cors from 'cors'
 
 import express from 'express'
 import connectDB from './db.js'
@@ -17,6 +18,8 @@ const app = express()
 
 await connectDB()
 app.use(express.json())
+
+app.use(cors())   //si no lo ponemos no deja conectar el front
 
 //Agrupadores de rutas
 app.use('/api/alumnos', alumnoRoutes)

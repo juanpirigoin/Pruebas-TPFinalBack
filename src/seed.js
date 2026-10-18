@@ -397,5 +397,12 @@ const [nota1, nota2, nota3, nota4, nota5, nota6, nota7, nota8, nota9, nota10,
     { nombre: "Cierre Anual", tipo: "cierre anual", valor: 9, fecha: new Date("2024-12-05"), idMateria: materia1._id, idAlumno: alumno1._id }
 ]);
 
+const [user1, ,user2, ,user3, ,user4] = await Usuario.create([
+    {nombre: "Julio_docente", apellido: "Fernandez_apellido_docente",email: "docente1@email.com", password: "docente123", rol: "docente", idCurso: ["6ad4c33fd35a22b0b5317895"]},
+    {nombre: "Luis_nombre_alumno", apellido: "Garcia_apellido_alumno", email: "alumno1@email.com", password: "alumno123", rol: "alumno", idAlumno: ["6ad4c33fd35a22b0b53178a6"]}, //alumno Luis Garcia, curso 1°A
+    {nombre: "Roberto_nombre_padre", apellido: "Perez_apellido_padre",email: "padre1@email.com", password: "padre123", rol: "padre", idAlumno: ["6ad4c33fd35a22b0b53178a0"]}, // alumno Juan Perez, curso 1°A
+    {nombre: "Daniela_nombre_administrativo", apellido: "Lopez_apellido_administrativo",email: "administrativo1@email.com", password: "administrativo123", rol: "administrativo"}
+]);
+
     
 await mongoose.connection.close();

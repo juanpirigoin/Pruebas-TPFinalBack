@@ -31,6 +31,25 @@ export const crearUsuarioService = async (usuarioData) => {
     }
 }
 
+// Verificar existencia del usuario
+export const verificarUsuarioService = async (id) => {
+   const existe = await Usuario.exists({_id: id})
+   if(!existe){
+    throw new ErrorApp(`No existe ningun usuario con el id ${id}`, 404)
+   }
+}
+
+
+// buscar el usuario por email con password
+// busca por email y trae la contraseña
+// es el unico lugar donde se pide la contraseña
+export const buscarPorEmailConPasswordService = async (email = "") => {
+    // .select("+password") mitiga el select:false del modelo de usuario
+    return await Usuario.findOne({ email: email.toLowerCase().trim() }).select("+password")
+}
+
+
+
 //Update usuario
 export const actualizarUsuarioService = async (id, usuarioData) => {
     try {
