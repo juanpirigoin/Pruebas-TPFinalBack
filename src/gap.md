@@ -1,4 +1,4 @@
-* manejar filtros en listarActividadesService
+* manejar filtros en listarActividadService
 
 * agregar retunDocument: "after" en los servicios de update
 
