@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import Usuario from '../models/usuario.js'
 import Alumno from '../models/alumno.js'
 import Curso from '../models/curso.js'
+import { ErrorApp } from '../utils/ErrorApp.js'
 
 //Get all usuarios
 export const listarUsuarioService = async ({ rol } = {}) => {

@@ -4,7 +4,7 @@ import * as materiaController from '../controllers/materiaController.js'
 const router = Router();
 
 //Get materias
-router.get('/', materiaController.listarMateriasController);
+router.get('/', materiaController.listarMateriaController);
 
 // Get por id
 router.get('/:id', materiaController.obtenerMateriaPorIdController);

@@ -4,7 +4,7 @@ import * as usuarioController from '../controllers/usuarioController.js'
 const router = Router();
 
 //Get usuarios
-router.get('/', usuarioController.listarUsuariosController);
+router.get('/', usuarioController.listarUsuarioController);
 
 // Get por id
 router.get('/:id', usuarioController.obtenerUsuarioPorIdController);

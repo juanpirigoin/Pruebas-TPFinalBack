@@ -4,7 +4,7 @@ import * as asistenciaController from '../controllers/asistenciaController.js'
 const router = Router();
 
 //Get asistencias
-router.get('/', asistenciaController.listarAsistenciasController);
+router.get('/', asistenciaController.listarAsistenciaController);
 
 // Get por id
 router.get('/:id', asistenciaController.obtenerAsistenciaPorIdController);

@@ -4,7 +4,7 @@ import * as unidadController from '../controllers/unidadController.js'
 const router = Router();
 
 //Get unidades
-router.get('/', unidadController.listarUnidadesController);
+router.get('/', unidadController.listarUnidadController);
 
 // Get por id
 router.get('/:id', unidadController.obtenerUnidadPorIdController);

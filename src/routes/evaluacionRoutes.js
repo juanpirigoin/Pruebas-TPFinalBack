@@ -4,7 +4,7 @@ import * as evaluacionController from '../controllers/evaluacionController.js'
 const router = Router();
 
 //Get evaluaciones
-router.get('/', evaluacionController.listarEvaluacionesController);
+router.get('/', evaluacionController.listarEvaluacionController);
 
 // Get por id
 router.get('/:id', evaluacionController.obtenerEvaluacionPorIdController);

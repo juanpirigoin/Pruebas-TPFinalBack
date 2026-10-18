@@ -4,7 +4,7 @@ import * as cursoController from '../controllers/cursoController.js'
 const router = Router();
 
 //Get cursos
-router.get('/', cursoController.listarCursosController);
+router.get('/', cursoController.listarCursoController);
 
 // Get por id
 router.get('/:id', cursoController.obtenerCursoPorIdController);

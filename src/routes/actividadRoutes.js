@@ -4,7 +4,7 @@ import * as actividadController from '../controllers/actividadController.js'
 const router = Router();
 
 //Get actividades
-router.get('/', actividadController.listarActividadesController);
+router.get('/', actividadController.listarActividadController);
 
 // Get por id
 router.get('/:id', actividadController.obtenerActividadPorIdController);

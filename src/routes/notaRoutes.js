@@ -4,7 +4,7 @@ import * as notaController from '../controllers/notaController.js'
 const router = Router();
 
 //Get notas
-router.get('/', notaController.listarNotasController);
+router.get('/', notaController.listarNotaController);
 
 // Get por id
 router.get('/:id', notaController.obtenerNotaPorIdController);

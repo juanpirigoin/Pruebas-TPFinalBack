@@ -1,3 +1,4 @@
+import authRoutes from './routes/authRoutes.js'
 import alumnoRoutes from './routes/alumnoRoutes.js'
 import unidadRoutes from './routes/unidadRoutes.js'
 import cursoRoutes from './routes/cursoRoutes.js'
@@ -21,7 +22,9 @@ app.use(express.json())
 
 app.use(cors())   //si no lo ponemos no deja conectar el front
 
+
 //Agrupadores de rutas
+app.use('/api/auth', authRoutes)
 app.use('/api/alumnos', alumnoRoutes)
 app.use('/api/unidades', unidadRoutes)
 app.use('/api/cursos', cursoRoutes)

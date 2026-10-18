@@ -10,8 +10,8 @@ const firmarToken = (usuario) => {
 };
 
 
-export const registrarService = async ({ nombre, apellido, email, password } = {}) => {
-  const usuario = await crearUsuarioService({ nombre, apellido, email, password });
+export const registrarService = async ({ nombre, apellido, email, password, rol } = {}) => {
+  const usuario = await crearUsuarioService({ nombre, apellido, email, password, rol });
 
   return {
     usuario: datosPublicosUsuario(usuario),
@@ -21,7 +21,7 @@ export const registrarService = async ({ nombre, apellido, email, password } = {
 
 export const loginService = async ({ email, password } = {}) => {
   if (!email || !password) {
-    throw new ErrorApp("Faltan el email y/o la contraseña", 400);
+    throw new Error("Faltan el email y/o la contraseña", 400);
   }
 
   const usuario = await buscarPorEmailConPasswordService(email);
