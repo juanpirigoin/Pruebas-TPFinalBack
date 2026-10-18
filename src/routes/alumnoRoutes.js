@@ -4,7 +4,7 @@ import * as alumnoController from '../controllers/alumnoController.js'
 const router = Router();
 
 //Get alumnos
-router.get('/', alumnoController.listarAlumnosController);
+router.get('/', alumnoController.listarAlumnoController);
 
 // Get por id
 router.get('/:id', alumnoController.obtenerAlumnoPorIdController);

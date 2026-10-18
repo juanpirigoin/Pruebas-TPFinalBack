@@ -48,6 +48,14 @@ export const buscarPorEmailConPasswordService = async (email = "") => {
     return await Usuario.findOne({ email: email.toLowerCase().trim() }).select("+password")
 }
 
+//export con datos publicos de usuarios
+export const datosPublicosUsuario = (usuario) => ({
+    _id: usuario._id,
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+    email: usuario.email,
+    rol: usuario.rol
+})
 
 
 //Update usuario

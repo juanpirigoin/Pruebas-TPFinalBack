@@ -30,6 +30,8 @@ const usuarioSchema = new mongoose.Schema({
         type: String,
         required: [true, "La contraseña es obligatoria"],
         trim: true,
+        select: false   //hay que poner esto para que no muestre la contraseña al hacer .find() o .findById() 
+        //de esta manera hay que usar select("+password") para que se muestre en los controladores que lo necesiten, como el login
     },
     rol: {
         type: String,
