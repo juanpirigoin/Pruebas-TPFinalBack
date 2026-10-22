@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt"
+import { ROLES } from "../utils/constants.js"
+
 
 const VUELTAS = 10
 
@@ -36,17 +38,17 @@ const usuarioSchema = new mongoose.Schema({
     rol: {
         type: String,
         required: [true, "El rol es obligatorio"],
-        enum: ["padre", "alumno", "docente", "administrativo"]
+        enum: Object.values(ROLES)
     },
     //solo aplica a alumnos o los padres, para poder filtrar a los alumnos que son hijos de ese padre
     idAlumno: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: "Alumno"
     },
-    //solo aplica a los docentes, para poder filtrar a los cursos que dicta ese docente
-    idCurso: {
+    //solo aplica a los docentes, para poder filtrar a las materias que dicta ese docente
+    idMateria: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: "Curso"
+        ref: "Materia"
     }
 }, {
     timestamps: true,
