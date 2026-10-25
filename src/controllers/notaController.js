@@ -1,14 +1,13 @@
 import { listarNotaService, obtenerNotaPorIdService, crearNotaService, actualizarNotaService, eliminarNotaService } from '../services/notaService.js'
 
 export const listarNotaController = async (req, res) => {
-    console.log("Query recibida:", req.query);
-    const notas = await listarNotaService(req.query);
+    const notas = await listarNotaService(req.usuario, req.query);
     res.status(200).json(notas);
 }
 
 
 export const obtenerNotaPorIdController = async (req, res) => {
-    const nota = await obtenerNotaPorIdService(req.params.id);
+    const nota = await obtenerNotaPorIdService(req.params.id, req.usuario);
     if (!nota) {
         return res.status(404).json({ error: "Nota no encontrada" });
     }

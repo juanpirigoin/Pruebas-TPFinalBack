@@ -15,7 +15,7 @@ export const listarUsuarioService = async ({ rol } = {}) => {
 
 //Get usuario por id
 export const obtenerUsuarioPorIdService = async (id) => {
-    return await Usuario.findById(id).populate("idAlumno", "nombre apellido").populate("idCurso", "nombre nivel turno");
+    return await Usuario.findById(id);
 }
 
 //Create usuario

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { ErrorApp } from '../utils/ErrorApp.js'
 import Curso from '../models/curso.js'
 
 //Get all cursos

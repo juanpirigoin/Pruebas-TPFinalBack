@@ -1,40 +1,61 @@
-import mongoose from 'mongoose'
+import { ErrorApp } from '../utils/ErrorApp.js'
 import Nota from '../models/nota.js'
-import Alumno from '../models/alumno.js'
-import Materia from '../models/materia.js'
-import Actividad from '../models/actividad.js'
-import Evaluacion from '../models/evaluacion.js'
+import { ROLES } from "../utils/constants.js"
+
+const alcanceDeNotas = async usuario => {
+    switch (usuario.rol) {
+        case ROLES.PADRE:
+            return { idAlumno: { $in: usuario.idAlumno } };
+        case ROLES.ALUMNO:
+            return { idAlumno: { $in: usuario.idAlumno } };
+        case ROLES.DOCENTE:
+            return { idMateria: { $in: usuario.idMateria } };
+        default:
+            return {};
+    }
+}
 
 //Get all notas
-export const listarNotaService = async ({ idAlumno, idMateria, idActividad, idEvaluacion } = {}) => {
-    const filtro = {};
-    if (idAlumno) {
-        filtro.idAlumno = new mongoose.Types.ObjectId(idAlumno.trim());
-    }
-    if (idMateria) {
-        filtro.idMateria = new mongoose.Types.ObjectId(idMateria.trim());
-    }
-    if (idActividad) {
-        filtro.idActividad = new mongoose.Types.ObjectId(idActividad.trim());
-    }
-    if (idEvaluacion) {
-        filtro.idEvaluacion = new mongoose.Types.ObjectId(idEvaluacion.trim());
-    }
-    return await Nota.find(filtro)
-        .populate("idAlumno", "nombre apellido")
-        .populate("idMateria", "nombre")
-        .populate("idActividad", "nombre")
-        .populate("idEvaluacion", "nombre");
+export const listarNotaService = async (usuario, filtros = {}) => {
+    const filtroAlcance = await alcanceDeNotas(usuario);
+    const filtro = { ...filtros, ...filtroAlcance } 
+    
+    
+    return await Nota.find(filtro) 
+ 
+        .populate("idAlumno", "nombre apellido") //si es alumno o padre
+ 
+        .populate({   //si es docente
+ 
+            path: "idMateria", 
+ 
+            select: "nombre", 
+ 
+            populate: { path: "idCurso", select: "nombre" } //populate anidado para obtener el curso de la materia
+ 
+        }) 
+ 
+        .populate("idActividad", "nombre") //si es actividad
+ 
+        .populate("idEvaluacion", "nombre") //si es evaluacion
+
 }
 
 //Get nota por id
-export const obtenerNotaPorIdService = async (id) => {
-    return await Nota.findById(id)
+export const obtenerNotaPorIdService = async (id, usuario) => {
+    const filtroAlcance = await alcanceDeNotas(usuario);
+    //aplico filtro para que no se muestre una nota que no este dentro del alcance de un alumno, padre o docente.
+    return await Nota.findOne({ _id: id, ...filtroAlcance })
         .populate("idAlumno", "nombre apellido")
-        .populate("idMateria", "nombre")
+        .populate({
+            path: "idMateria",
+            select: "nombre",
+            populate: { path: "idCurso", select: "nombre" }
+        })
         .populate("idActividad", "nombre")
         .populate("idEvaluacion", "nombre");
 }
+
 
 //Create nota
 export const crearNotaService = async (notaData) => {

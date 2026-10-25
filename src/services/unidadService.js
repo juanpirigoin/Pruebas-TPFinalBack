@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { ErrorApp } from '../utils/ErrorApp.js'
 import Unidad from '../models/unidad.js'
 import Materia from '../models/materia.js'
 

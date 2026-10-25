@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { JWT_EXPIRATION, JWT_SECRET } from "../utils/config.js";
 import { buscarPorEmailConPasswordService, crearUsuarioService, datosPublicosUsuario } from "./usuarioService.js";
-import { ErrorApp } from "../utils/ErrorApp.js";
+import { ErrorApp } from '../utils/ErrorApp.js'
 
 const firmarToken = (usuario) => {  
   return jwt.sign({ id: usuario._id, rol: usuario.rol }, JWT_SECRET, {

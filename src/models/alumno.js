@@ -18,7 +18,7 @@ const alumnoSchema = new mongoose.Schema({
     dni: {
         type: String,
         required: [true, "El DNI es obligatorio"],
-        unique: [true, "El DNI ya está registrado"],
+        unique: true,
         trim: true,
         minlength: [8, "El DNI debe tener al menos 8 caracteres"],
         maxlength: [10, "El DNI no puede exceder los 10 caracteres"]
