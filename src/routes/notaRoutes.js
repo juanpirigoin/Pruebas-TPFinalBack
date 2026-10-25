@@ -6,34 +6,30 @@ import { permitirRoles } from '../middleware/permitirRoles.js'
 import { ROLES } from '../utils/constants.js'
 
 const router = Router();
-router.use();
-
 
 //Aca defino quien puede modificar notas
 const rolesQuePuedenModificarNotas = [ROLES.DOCENTE, ROLES.ADMINISTRATIVO, ROLES.ADMIN]
 
-//Verificacion de token y carga de usuario en todos los requests
-const paraTodos = [verificarToken, cargarUsuario];
-
-//Filtro para permisos
-const filtroPermisos = [permitirRoles(...rolesQuePuedenModificarNotas)];
+//Definicion de permisos
+const filtroPermisoGeneral = [verificarToken, cargarUsuario];
+const filtroPermisoModificacion = [...filtroPermisoGeneral, permitirRoles(...rolesQuePuedenModificarNotas)];
 
 //En los Get todos tienen acceso, el alcance se hace en el service segun rol del usuario
 //Get notas
-router.get('/', paraTodos, notaController.listarNotaController);
+router.get('/', filtroPermisoGeneral, notaController.listarNotaController);
 //Get por id
-router.get('/:id', paraTodos, notaController.obtenerNotaPorIdController);
+router.get('/:id', filtroPermisoGeneral, notaController.obtenerNotaPorIdController);
 
 
 //Los post, patch y delete solo pueden aplicarlos los docentes, administrativos y admin
 
 //Crear nota
-router.post('/', paraTodos, filtroPermisos, notaController.crearNotaController);
+router.post('/', filtroPermisoModificacion, notaController.crearNotaController);
 
 //Actualizar nota
-router.patch('/:id', paraTodos, filtroPermisos, notaController.actualizarNotaController);
+router.patch('/:id', filtroPermisoModificacion, notaController.actualizarNotaController);
 
 //Eliminar nota
-router.delete('/:id', paraTodos, filtroPermisos, notaController.eliminarNotaController);
+router.delete('/:id', filtroPermisoModificacion, notaController.eliminarNotaController);
 
 export default router;
