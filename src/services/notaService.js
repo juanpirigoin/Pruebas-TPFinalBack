@@ -1,4 +1,3 @@
-import { ErrorApp } from '../utils/ErrorApp.js'
 import Nota from '../models/nota.js'
 import { ROLES } from "../utils/constants.js"
 
@@ -59,32 +58,19 @@ export const obtenerNotaPorIdService = async (id, usuario) => {
 
 //Create nota
 export const crearNotaService = async (notaData) => {
-    try {
-        const nuevaNota = await Nota.create(notaData);
-        return nuevaNota;
-    } catch (error) {
-        throw new ErrorApp(`Error al crear la nota: ${error.message}`);
-    }
+    return await Nota.create(notaData);
 }
 
 //Update nota
 export const actualizarNotaService = async (id, notaData) => {
-    try {
-        return await Nota.findByIdAndUpdate(
-            { _id: id },
-            notaData,
-            { new: true, runValidators: true }
-        )
-    } catch (error) {
-        throw new ErrorApp(`Error al actualizar la nota: ${error.message}`);
-    }
+    return await Nota.findByIdAndUpdate(
+        id,
+        notaData,
+        { returnDocument: "after", runValidators: true }
+    );
 }
 
 //Delete nota
 export const eliminarNotaService = async (id) => {
-    try {
-        return await Nota.findByIdAndDelete(id);
-    } catch (error) {
-        throw new ErrorApp(`Error al eliminar la nota: ${error.message}`);
-    }
+    return await Nota.findByIdAndDelete(id);
 }
