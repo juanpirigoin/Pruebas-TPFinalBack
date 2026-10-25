@@ -10,19 +10,20 @@ const router = Router();
 //Aca defino quien puede modificar notas
 const rolesQuePuedenModificarNotas = [ROLES.DOCENTE, ROLES.ADMINISTRATIVO, ROLES.ADMIN]
 
-//Definicion de permisos
-const filtroPermisoGeneral = [verificarToken, cargarUsuario];
-const filtroPermisoModificacion = [...filtroPermisoGeneral, permitirRoles(...rolesQuePuedenModificarNotas)];
+//Solo usuarios con token van a acceder o modificar las notas
+router.use(verificarToken, cargarUsuario);
 
-//En los Get todos tienen acceso, el alcance se hace en el service segun rol del usuario
+//Definicion de permisos
+const filtroPermisoModificacion = [permitirRoles(...rolesQuePuedenModificarNotas)];
+
+//En los Get todos tienen acceso con token, el alcance se hace en el service segun rol del usuario
 //Get notas
-router.get('/', filtroPermisoGeneral, notaController.listarNotaController);
+router.get('/', notaController.listarNotaController);
 //Get por id
-router.get('/:id', filtroPermisoGeneral, notaController.obtenerNotaPorIdController);
+router.get('/:id', notaController.obtenerNotaPorIdController);
 
 
 //Los post, patch y delete solo pueden aplicarlos los docentes, administrativos y admin
-
 //Crear nota
 router.post('/', filtroPermisoModificacion, notaController.crearNotaController);
 
