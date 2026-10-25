@@ -9,6 +9,7 @@ import Evaluacion from "./models/evaluacion.js";
 import Actividad from "./models/actividad.js";
 import Asistencia from "./models/asistencia.js";
 import Nota from "./models/nota.js";
+import { ROLES } from "./utils/constants.js";
 
 await connectDB();
 
@@ -397,12 +398,47 @@ const [nota1, nota2, nota3, nota4, nota5, nota6, nota7, nota8, nota9, nota10,
     { nombre: "Cierre Anual", tipo: "cierre anual", valor: 9, fecha: new Date("2024-12-05"), idMateria: materia1._id, idAlumno: alumno1._id }
 ]);
 
-const [user1, ,user2, ,user3, ,user4] = await Usuario.create([
-    {nombre: "Julio_docente", apellido: "Fernandez_apellido_docente",email: "docente1@email.com", password: "docente123", rol: "docente", idCurso: ["6ad4c33fd35a22b0b5317895"]},
-    {nombre: "Luis_nombre_alumno", apellido: "Garcia_apellido_alumno", email: "alumno1@email.com", password: "alumno123", rol: "alumno", idAlumno: ["6ad4c33fd35a22b0b53178a6"]}, //alumno Luis Garcia, curso 1°A
-    {nombre: "Roberto_nombre_padre", apellido: "Perez_apellido_padre",email: "padre1@email.com", password: "padre123", rol: "padre", idAlumno: ["6ad4c33fd35a22b0b53178a0"]}, // alumno Juan Perez, curso 1°A
-    {nombre: "Daniela_nombre_administrativo", apellido: "Lopez_apellido_administrativo",email: "administrativo1@email.com", password: "administrativo123", rol: "administrativo"}
+const [docente1, alumno1Usuario, padre1, administrativo1, admin1] = await Usuario.create([
+    {
+        nombre: "Julio_docente",
+        apellido: "Fernandez_apellido_docente",
+        email: "docente1@email.com",
+        password: "docente123",
+        rol: ROLES.DOCENTE,
+        idMateria: [materia1._id, materia9._id] // Dicta Matemática en 1°A y 1°B
+    },
+    {
+        nombre: "Luis_nombre_alumno",
+        apellido: "Garcia_apellido_alumno",
+        email: "alumno1@email.com",
+        password: "alumno123",
+        rol: ROLES.ALUMNO,
+        idAlumno: [alumno7._id] // Alumno Luis García, curso 1°A
+    },
+    {
+        nombre: "Roberto_nombre_padre",
+        apellido: "Perez_apellido_padre",
+        email: "padre1@email.com",
+        password: "padre123",
+        rol: ROLES.PADRE,
+        idAlumno: [alumno1._id] // Hijo: Juan Pérez, curso 1°A
+    },
+    {
+        nombre: "Daniela_nombre_administrativo",
+        apellido: "Lopez_apellido_administrativo",
+        email: "administrativo1@email.com",
+        password: "administrativo123",
+        rol: ROLES.ADMINISTRATIVO
+    },
+    {
+        nombre: "Admin_nombre",
+        apellido: "Sistema_apellido",
+        email: "admin@email.com",
+        password: "admin123",
+        rol: ROLES.ADMIN
+    }
 ]);
 
-    
+console.log("Seed completado exitosamente con usuarios y datos vinculados.");
+
 await mongoose.connection.close();
