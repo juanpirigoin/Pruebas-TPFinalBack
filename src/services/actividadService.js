@@ -3,9 +3,6 @@ import Actividad from '../models/actividad.js'
 import { ErrorApp } from '../utils/ErrorApp.js'
 
 
-import Unidad from '../models/unidad.js'   //no hace falta importar?
-
-
 //Get todas las actividades por unidad
 export const listarActividadService = async ({ idUnidad } = {}) => {
     const filtro = {};

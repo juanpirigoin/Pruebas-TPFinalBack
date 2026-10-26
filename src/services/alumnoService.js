@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import { ErrorApp } from '../utils/ErrorApp.js'
 import Alumno from '../models/alumno.js'
-import Curso from '../models/curso.js'
 
 //Get all alumnos por curso
 export const listarAlumnoService = async ({ idCurso } = {}) => {
