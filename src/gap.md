@@ -19,11 +19,11 @@ modelo → service → controller → ruta ----TODO CORREGIDO CON FILTROS DE ALC
 → test → Swagger ----- COMPLETAR
 
 actividad:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
+modelo → service → controller → ruta ---- TODO CORREGIDO CON FILTROS DE ALCANCE
 → test → Swagger ----- COMPLETAR
 
 evaluacion:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
+modelo → service → controller → ruta ---- TODO CORREGIDO CON FILTROS DE ALCANCE
 → test → Swagger ----- COMPLETAR
 
 alumno:
@@ -45,5 +45,3 @@ modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
 asitencia:
 modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
 → test → Swagger ----- COMPLETAR
-
-

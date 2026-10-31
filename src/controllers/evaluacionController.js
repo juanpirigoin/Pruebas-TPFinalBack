@@ -2,13 +2,12 @@ import { listarEvaluacionService, obtenerEvaluacionPorIdService, crearEvaluacion
 
 export const listarEvaluacionController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const evaluaciones = await listarEvaluacionService(req.query);
+    const evaluaciones = await listarEvaluacionService(req.usuario, req.query);
     res.status(200).json(evaluaciones);
 }
 
-
 export const obtenerEvaluacionPorIdController = async (req, res) => {
-    const evaluacion = await obtenerEvaluacionPorIdService(req.params.id);
+    const evaluacion = await obtenerEvaluacionPorIdService(req.params.id, req.usuario);
     if (!evaluacion) {
         return res.status(404).json({ error: "Evaluación no encontrada" });
     }
@@ -16,12 +15,12 @@ export const obtenerEvaluacionPorIdController = async (req, res) => {
 }
 
 export const crearEvaluacionController = async (req, res) => {
-    const nuevaEvaluacion = await crearEvaluacionService(req.body);
+    const nuevaEvaluacion = await crearEvaluacionService(req.body, req.usuario);
     res.status(201).json(nuevaEvaluacion);
 }
 
 export const actualizarEvaluacionController = async (req, res) => {
-    const evaluacionActualizada = await actualizarEvaluacionService(req.params.id, req.body);
+    const evaluacionActualizada = await actualizarEvaluacionService(req.params.id, req.body, req.usuario);
 
     if (!evaluacionActualizada) {
         return res.status(404).json({ error: "Evaluación no encontrada" });
@@ -30,7 +29,7 @@ export const actualizarEvaluacionController = async (req, res) => {
 }   
 
 export const eliminarEvaluacionController = async (req, res) => {
-    const evaluacionEliminada = await eliminarEvaluacionService(req.params.id);
+    const evaluacionEliminada = await eliminarEvaluacionService(req.params.id, req.usuario);
     if (!evaluacionEliminada) {
         return res.status(404).json({ error: "Evaluación no encontrada" });
     }
