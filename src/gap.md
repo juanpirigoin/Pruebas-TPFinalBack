@@ -15,7 +15,7 @@
 GAP Pensando en vertical
 
 nota:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR 
+modelo → service → controller → ruta ----TODO CORREGIDO CON FILTROS DE ALCANCE 
 → test → Swagger ----- COMPLETAR
 
 actividad:

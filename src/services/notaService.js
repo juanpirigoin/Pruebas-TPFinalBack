@@ -1,6 +1,7 @@
 
 import Nota from '../models/nota.js'
 import { ROLES } from "../utils/constants.js"
+import { ErrorApp } from '../utils/ErrorApp.js'
 
 const alcanceDeNotas = async usuario => {
     switch (usuario.rol) {
@@ -51,7 +52,7 @@ export const listarNotaService = async (usuario, filtros = {}) => {
         })
         .populate("idActividad", "nombre")
         .populate("idEvaluacion", "nombre")
-        .lean(); 
+        .lean();
 
     return notas.map(formatearNota);
 }
@@ -68,7 +69,8 @@ export const obtenerNotaPorIdService = async (id, usuario) => {
             populate: { path: "idCurso", select: "nombre" }
         })
         .populate("idActividad", "nombre")
-        .populate("idEvaluacion", "nombre");
+        .populate("idEvaluacion", "nombre")
+        .lean();
 
     if (!nota) {
         return null;
@@ -79,20 +81,56 @@ export const obtenerNotaPorIdService = async (id, usuario) => {
 
 
 //Create nota
-export const crearNotaService = async (notaData) => {
+export const crearNotaService = async (notaData, usuario) => {
+    // Validacion para que un docente no cree notas de materias que no le corresponden
+    if (
+        usuario.rol === ROLES.DOCENTE &&
+        !usuario.idMateria.some(m => m.toString() === notaData.idMateria?.toString())
+    ) {
+        throw new ErrorApp(
+            "No tiene permisos para operar sobre esa materia",
+            403
+        );
+    }
     return await Nota.create(notaData);
 }
 
 //Update nota
-export const actualizarNotaService = async (id, notaData) => {
-    return await Nota.findByIdAndUpdate(
-        id,
+export const actualizarNotaService = async (id, notaData, usuario) => {
+    // Validacion para que un docente no asigne materias que no le corresponden
+    if (
+        usuario.rol === ROLES.DOCENTE &&
+        notaData.idMateria &&
+        !usuario.idMateria.some(m => m.toString() === notaData.idMateria?.toString())
+    ) {
+        throw new ErrorApp(
+            "No tiene permisos para operar sobre esa materia",
+            403
+        );
+    }
+
+    const filtroAlcance = await alcanceDeNotas(usuario);
+
+    return await Nota.findOneAndUpdate(
+        {
+            _id: id,
+            ...filtroAlcance
+        },
         notaData,
-        { returnDocument: "after", runValidators: true }
+        {
+            returnDocument: "after",
+            runValidators: true
+        }
     );
-}
+};
+
 
 //Delete nota
-export const eliminarNotaService = async (id) => {
-    return await Nota.findByIdAndDelete(id);
-}
+export const eliminarNotaService = async (id, usuario) => {
+    const filtroAlcance = await alcanceDeNotas(usuario);
+
+    return await Nota.findOneAndDelete({
+        _id: id,
+        ...filtroAlcance
+    });
+};

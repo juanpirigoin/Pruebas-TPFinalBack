@@ -15,12 +15,12 @@ export const obtenerNotaPorIdController = async (req, res) => {
 }
 
 export const crearNotaController = async (req, res) => {
-    const nuevaNota = await crearNotaService(req.body);
+    const nuevaNota = await crearNotaService(req.body, req.usuario);
     res.status(201).json(nuevaNota);
 }
 
 export const actualizarNotaController = async (req, res) => {
-    const notaActualizada = await actualizarNotaService(req.params.id, req.body);
+    const notaActualizada = await actualizarNotaService(req.params.id, req.body, req.usuario);
 
     if (!notaActualizada) {
         return res.status(404).json({ error: "Nota no encontrada" });
@@ -29,7 +29,7 @@ export const actualizarNotaController = async (req, res) => {
 }   
 
 export const eliminarNotaController = async (req, res) => {
-    const notaEliminada = await eliminarNotaService(req.params.id);
+    const notaEliminada = await eliminarNotaService(req.params.id, req.usuario);
     if (!notaEliminada) {
         return res.status(404).json({ error: "Nota no encontrada" });
     }
