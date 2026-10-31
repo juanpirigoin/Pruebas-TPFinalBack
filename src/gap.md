@@ -7,7 +7,7 @@
 
 
 
-* agregar retunDocument: "after" en los servicios de update
+* agregar returnDocument: "after" en los servicios de update ---- COMPLETADO EN TODOS LOS SERVICIOS
 
 
 
@@ -15,7 +15,7 @@
 GAP Pensando en vertical
 
 nota:
-modelo → service → controller → ruta ----TODO CORREGIDO CON FILTROS DE ALCANCE 
+modelo → service → controller → ruta ---- TODO CORREGIDO CON FILTROS DE ALCANCE 
 → test → Swagger ----- COMPLETAR
 
 actividad:
@@ -26,22 +26,22 @@ evaluacion:
 modelo → service → controller → ruta ---- TODO CORREGIDO CON FILTROS DE ALCANCE
 → test → Swagger ----- COMPLETAR
 
+unidad:
+modelo → service → controller → ruta ---- TODO CORREGIDO CON FILTROS DE ALCANCE
+→ test → Swagger ----- COMPLETAR
+
+asistencia:
+modelo → service → controller → ruta ---- TODO CORREGIDO CON FILTROS DE ALCANCE
+→ test → Swagger ----- COMPLETAR
+
 alumno:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
+modelo → service → controller → ruta ---- PROTEGIDO POR ROLES (SOLO GESTION ESCOLAR)
 → test → Swagger ----- COMPLETAR
 
 curso:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
-→ test → Swagger ----- COMPLETAR
-
-unidad:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
+modelo → service → controller → ruta ---- PROTEGIDO POR ROLES (MODIFICACION ADMIN/ADMINISTRATIVO)
 → test → Swagger ----- COMPLETAR
 
 materia:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
-→ test → Swagger ----- COMPLETAR
-
-asitencia:
-modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
+modelo → service → controller → ruta ---- PROTEGIDO POR ROLES (MODIFICACION ADMIN/ADMINISTRATIVO)
 → test → Swagger ----- COMPLETAR

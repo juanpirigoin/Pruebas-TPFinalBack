@@ -2,13 +2,12 @@ import { listarUnidadService, obtenerUnidadPorIdService, crearUnidadService, act
 
 export const listarUnidadController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const unidades = await listarUnidadService(req.query);
+    const unidades = await listarUnidadService(req.usuario, req.query);
     res.status(200).json(unidades);
 }
 
-
 export const obtenerUnidadPorIdController = async (req, res) => {
-    const unidad = await obtenerUnidadPorIdService(req.params.id);
+    const unidad = await obtenerUnidadPorIdService(req.params.id, req.usuario);
     if (!unidad) {
         return res.status(404).json({ error: "Unidad no encontrada" });
     }
@@ -16,12 +15,12 @@ export const obtenerUnidadPorIdController = async (req, res) => {
 }
 
 export const crearUnidadController = async (req, res) => {
-    const nuevaUnidad = await crearUnidadService(req.body);
+    const nuevaUnidad = await crearUnidadService(req.body, req.usuario);
     res.status(201).json(nuevaUnidad);
 }
 
 export const actualizarUnidadController = async (req, res) => {
-    const unidadActualizada = await actualizarUnidadService(req.params.id, req.body);
+    const unidadActualizada = await actualizarUnidadService(req.params.id, req.body, req.usuario);
 
     if (!unidadActualizada) {
         return res.status(404).json({ error: "Unidad no encontrada" });
@@ -30,7 +29,7 @@ export const actualizarUnidadController = async (req, res) => {
 }   
 
 export const eliminarUnidadController = async (req, res) => {
-    const unidadEliminada = await eliminarUnidadService(req.params.id);
+    const unidadEliminada = await eliminarUnidadService(req.params.id, req.usuario);
     if (!unidadEliminada) {
         return res.status(404).json({ error: "Unidad no encontrada" });
     }

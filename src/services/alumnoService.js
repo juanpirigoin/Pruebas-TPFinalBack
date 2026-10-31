@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { ErrorApp } from '../utils/ErrorApp.js'
 import Alumno from '../models/alumno.js'
 
-//Get all alumnos por curso
+// Get all alumnos por curso
 export const listarAlumnoService = async ({ idCurso } = {}) => {
     const filtro = {};
     if (idCurso) {
@@ -11,50 +11,40 @@ export const listarAlumnoService = async ({ idCurso } = {}) => {
     return await Alumno.find(filtro).populate("idCurso", "nombre nivel turno").sort({ apellido: 1, nombre: 1 });
 }
 
-//Get alumno por id
+// Get alumno por id
 export const obtenerAlumnoPorIdService = async (id) => {
     return await Alumno.findById(id).populate("idCurso", "nombre nivel turno");
 }
 
-//Create alumno
+// Create alumno
 export const crearAlumnoService = async (alumnoData) => {
     try {
-        const nuevoAlumno = await Alumno.create(alumnoData);
-        return nuevoAlumno;
+        return await Alumno.create(alumnoData);
     } catch (error) {
-        //error en duplicado de DNI
         if (error.code === 11000) {
-            throw new ErrorApp(`El DNI: ${alumnoData.dni} alumno ya existe`);
-        } else {
-            throw new ErrorApp(`Error al crear el alumno: ${error.message}`);
+            throw new ErrorApp(`El DNI: ${alumnoData.dni} ya existe`, 409);
         }
-
+        throw error;
     }
 }
 
-//Update alumno
+// Update alumno
 export const actualizarAlumnoService = async (id, alumnoData) => {
     try {
-        return Alumno.findByIdAndUpdate(
-            { _id: id },
+        return await Alumno.findByIdAndUpdate(
+            id,
             alumnoData,
-            { new: true, runValidators: true }
-        )
+            { returnDocument: "after", runValidators: true }
+        );
     } catch (error) {
-        //error en duplicado de DNI
         if (error.code === 11000) {
-            throw new ErrorApp(`El DNI: ${alumnoData.dni} ingresado ya pertenece a otro alumno`, 409);
-        } else {
-            throw new ErrorApp(`Error al actualizar el alumno: ${error.message}`);
+            throw new ErrorApp(`El DNI: ${alumnoData.dni} ya pertenece a otro alumno`, 409);
         }
+        throw error;
     }
 }
 
-//Delete alumno
+// Delete alumno
 export const eliminarAlumnoService = async (id) => {
-    try {
-        return Alumno.findByIdAndDelete(id);
-    } catch (error) {
-        throw new ErrorApp(`Error al eliminar el alumno: ${error.message}`);
-    }
+    return await Alumno.findByIdAndDelete(id);
 }

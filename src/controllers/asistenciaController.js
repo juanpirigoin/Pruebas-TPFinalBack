@@ -2,13 +2,12 @@ import { listarAsistenciaService, obtenerAsistenciaPorIdService, crearAsistencia
 
 export const listarAsistenciaController = async (req, res) => {
     console.log("Query recibida:", req.query);
-    const asistencias = await listarAsistenciaService(req.query);
+    const asistencias = await listarAsistenciaService(req.usuario, req.query);
     res.status(200).json(asistencias);
 }
 
-
 export const obtenerAsistenciaPorIdController = async (req, res) => {
-    const asistencia = await obtenerAsistenciaPorIdService(req.params.id);
+    const asistencia = await obtenerAsistenciaPorIdService(req.params.id, req.usuario);
     if (!asistencia) {
         return res.status(404).json({ error: "Asistencia no encontrada" });
     }

@@ -1,53 +1,62 @@
 import mongoose from 'mongoose'
-import { ErrorApp } from '../utils/ErrorApp.js'
 import Asistencia from '../models/asistencia.js'
+import { ROLES } from '../utils/constants.js'
 
-//Get all asistencias por alumno
-export const listarAsistenciaService = async ({ idAlumno } = {}) => {
-    const filtro = {};
+const alcanceDeAsistencias = async (usuario) => {
+    switch (usuario.rol) {
+        case ROLES.PADRE:
+        case ROLES.ALUMNO:
+            return { idAlumno: { $in: usuario.idAlumno } };
+        default:
+            return {};
+    }
+};
+
+// Get all asistencias (con filtro de alcance)
+export const listarAsistenciaService = async (usuario, filtros = {}) => {
+    const { idAlumno, ...otrosFiltros } = filtros;
+    const filtroAlcance = await alcanceDeAsistencias(usuario);
+    const filtro = { ...otrosFiltros };
+
     if (idAlumno) {
+        if (usuario.rol === ROLES.PADRE || usuario.rol === ROLES.ALUMNO) {
+            const idsPermitidos = (usuario.idAlumno || []).map(id => id.toString());
+            if (!idsPermitidos.includes(idAlumno.trim())) {
+                return [];
+            }
+        }
         filtro.idAlumno = new mongoose.Types.ObjectId(idAlumno.trim());
+    } else {
+        Object.assign(filtro, filtroAlcance);
     }
-    return await Asistencia.find(filtro).populate("idAlumno", "nombre apellido");
-}
 
-//Get asistencia por id
-export const obtenerAsistenciaPorIdService = async (id) => {
-    return await Asistencia.findById(id).populate("idAlumno", "nombre apellido");
-}
+    return await Asistencia.find(filtro)
+        .populate("idAlumno", "nombre apellido")
+        .sort({ fecha: -1 });
+};
 
-//Create asistencia 
+// Get asistencia por id
+export const obtenerAsistenciaPorIdService = async (id, usuario) => {
+    const filtroAlcance = await alcanceDeAsistencias(usuario);
+    return await Asistencia.findOne({ _id: id, ...filtroAlcance })
+        .populate("idAlumno", "nombre apellido");
+};
+
+// Create asistencia 
 export const crearAsistenciaService = async (asistenciaData) => {
-    try {
-        const nuevaAsistencia = await Asistencia.create(asistenciaData);
-        return nuevaAsistencia;
-    } catch (error) {
-        throw new ErrorApp(`Error al crear la asistencia: ${error.message}`);
-    }
-}
+    return await Asistencia.create(asistenciaData);
+};
 
-
-//DEBERIA EXIXSTIR UN CREAR ASISTENCIA PARA UN GRUPO DE ALUMNOS???? SE PODRIA???
-
-
-//Update asistencia
+// Update asistencia
 export const actualizarAsistenciaService = async (id, asistenciaData) => {
-    try {
-        return await Asistencia.findByIdAndUpdate(
-            { _id: id },
-            asistenciaData,
-            { new: true, runValidators: true }
-        )
-    } catch (error) {
-        throw new ErrorApp(`Error al actualizar la asistencia: ${error.message}`);
-    }
-}
+    return await Asistencia.findByIdAndUpdate(
+        id,
+        asistenciaData,
+        { returnDocument: "after", runValidators: true }
+    );
+};
 
-//Delete asistencia
+// Delete asistencia
 export const eliminarAsistenciaService = async (id) => {
-    try {
-        return await Asistencia.findByIdAndDelete(id);
-    } catch (error) {
-        throw new ErrorApp(`Error al eliminar la asistencia: ${error.message}`);
-    }
-}
+    return await Asistencia.findByIdAndDelete(id);
+};

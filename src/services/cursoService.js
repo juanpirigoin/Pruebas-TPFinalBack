@@ -1,50 +1,30 @@
-import mongoose from 'mongoose'
-import { ErrorApp } from '../utils/ErrorApp.js'
 import Curso from '../models/curso.js'
 
-//Get all cursos
+// Get all cursos
 export const listarCursoService = async () => {
-    return await Curso.find()
+    return await Curso.find();
 }
 
-//Get curso por id
+// Get curso por id
 export const obtenerCursoPorIdService = async (id) => {
-    return await Curso.findById(id)
+    return await Curso.findById(id);
 }
 
-//Create curso
+// Create curso
 export const crearCursoService = async (cursoData) => {
-    try {
-        const nuevoCurso = await Curso.create(cursoData);
-        return nuevoCurso;
-    } catch (error) {
-        //error en duplicado de curso??? no tengo clave UNIQUE
-        // if (error.code === 11000) {
-        //     throw new ErrorApp(`El DNI: ${alumnoData.dni} alumno ya existe`);
-        // } else {
-        //     throw new ErrorApp(`Error al crear el alumno: ${error.message}`);
-        // }
-    }
+    return await Curso.create(cursoData);
 }
 
-//Update curso
+// Update curso
 export const actualizarCursoService = async (id, cursoData) => {
-    try {
-        return Curso.findByIdAndUpdate(
-            { _id: id },
-            cursoData,
-            { new: true, runValidators: true }
-        )
-    } catch (error) {
-        //MISMO PROBLEMA QUE EN LA CREACION... NO HAY CLAVE UNIQUE
-    }
+    return await Curso.findByIdAndUpdate(
+        id,
+        cursoData,
+        { returnDocument: "after", runValidators: true }
+    );
 }
 
-//Delete curso
+// Delete curso
 export const eliminarCursoService = async (id) => {
-    try {
-        return Curso.findByIdAndDelete(id);
-    } catch (error) {
-        throw new ErrorApp(`Error al eliminar el cursoo: ${error.message}`);
-    }
+    return await Curso.findByIdAndDelete(id);
 }

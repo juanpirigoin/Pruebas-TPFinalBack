@@ -1,16 +1,17 @@
-import {Router} from 'express'
+import { Router } from 'express'
 import * as unidadController from '../controllers/unidadController.js'
 import { verificarToken } from '../middleware/verificarToken.js'
+import { cargarUsuario } from '../middleware/cargarUsuario.js'
 import { permitirRoles } from '../middleware/permitirRoles.js'
 import { ROLES } from '../utils/constants.js'
 
 const router = Router();
-//Aca defino quien puede modificar actividades
+//Aca defino quien puede modificar unidades
 const rolesQuePuedenModificarUnidades = [ROLES.ADMINISTRATIVO, ROLES.ADMIN, ROLES.DOCENTE]
 //Definicion de permisos
 const filtroPermisoModificacion = [permitirRoles(...rolesQuePuedenModificarUnidades)];
 //Solo usuarios con token van a acceder o modificar las unidades
-router.use(verificarToken);
+router.use(verificarToken, cargarUsuario);
 
 // GET: cualquier usuario logueado puede ver unidades
 router.get('/', unidadController.listarUnidadController);
