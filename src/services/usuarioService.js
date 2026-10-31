@@ -20,6 +20,7 @@ export const obtenerUsuarioPorIdService = async (id) => {
 
 //Create usuario
 export const crearUsuarioService = async (usuarioData) => {
+    
     try {
         const nuevoUsuario = await Usuario.create(usuarioData);
         return nuevoUsuario;

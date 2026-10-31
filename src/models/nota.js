@@ -34,7 +34,8 @@ const notaSchema = new mongoose.Schema({
     },
     idMateria: {
         type: mongoose.Schema.Types.ObjectId,   
-        ref: "Materia"
+        ref: "Materia",
+        required: [true, "La materia es obligatoria"]
     },
     idAlumno: {
         type: mongoose.Schema.Types.ObjectId,   

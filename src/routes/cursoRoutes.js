@@ -1,21 +1,24 @@
 import {Router} from 'express'
 import * as cursoController from '../controllers/cursoController.js'
+import { verificarToken } from '../middleware/verificarToken.js'
+import { permitirRoles } from '../middleware/permitirRoles.js'
+import { ROLES } from '../utils/constants.js'
 
 const router = Router();
+//Aca defino quien puede modificar cursos
+const rolesQuePuedenModificarCursos = [ROLES.ADMINISTRATIVO, ROLES.ADMIN]
+//Definicion de permisos
+const filtroPermisoModificacion = [permitirRoles(...rolesQuePuedenModificarCursos)];
+//Solo usuarios con token van a acceder o modificar los cursos
+router.use(verificarToken);
 
-//Get cursos
+// GET: cualquier usuario logueado puede ver cursos
 router.get('/', cursoController.listarCursoController);
-
-// Get por id
 router.get('/:id', cursoController.obtenerCursoPorIdController);
 
-//Crear cruso
-router.post('/', cursoController.crearCursoController);
-
-//Actualizar curso
-router.patch('/:id', cursoController.actualizarCursoController);
-
-//Eliminar curso
-router.delete('/:id', cursoController.eliminarCursoController);
+// POST/PATCH/DELETE: solo admin y administrativo
+router.post('/', ...filtroPermisoModificacion, cursoController.crearCursoController);
+router.patch('/:id', ...filtroPermisoModificacion, cursoController.actualizarCursoController);
+router.delete('/:id', ...filtroPermisoModificacion, cursoController.eliminarCursoController);
 
 export default router;

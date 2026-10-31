@@ -1,3 +1,4 @@
+
 import Nota from '../models/nota.js'
 import { ROLES } from "../utils/constants.js"
 
@@ -17,27 +18,18 @@ const alcanceDeNotas = async usuario => {
 //Get all notas
 export const listarNotaService = async (usuario, filtros = {}) => {
     const filtroAlcance = await alcanceDeNotas(usuario);
-    const filtro = { ...filtros, ...filtroAlcance } 
-    
-    
-    return await Nota.find(filtro) 
- 
-        .populate("idAlumno", "nombre apellido") //si es alumno o padre
- 
-        .populate({   //si es docente
- 
-            path: "idMateria", 
- 
-            select: "nombre", 
- 
-            populate: { path: "idCurso", select: "nombre" } //populate anidado para obtener el curso de la materia
- 
-        }) 
- 
-        .populate("idActividad", "nombre") //si es actividad
- 
-        .populate("idEvaluacion", "nombre") //si es evaluacion
+    const filtro = { ...filtros, ...filtroAlcance }
 
+
+    return await Nota.find(filtro)
+        .populate("idAlumno", "nombre apellido")
+        .populate({
+            path: "idMateria",
+            select: "nombre",
+            populate: { path: "idCurso", select: "nombre" }
+        })
+        .populate("idActividad", "nombre")
+        .populate("idEvaluacion", "nombre");
 }
 
 //Get nota por id

@@ -12,7 +12,7 @@ export const loginController = async (req, res) => {
 }
 
 export const perfilController = async (req, res) => {
-    const usuario = await usuarioService.obtenerUsuarioIdService(req.usuario.id)
+    const usuario = await usuarioService.obtenerUsuarioPorIdService(req.usuario.id)
     if (!usuario) {
         // el token es válido, pero el usuario se borró después de loguearse
         return res.status(404).json({ error: "Ese usuario ya no existe" })

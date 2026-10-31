@@ -1,21 +1,24 @@
 import {Router} from 'express'
 import * as actividadController from '../controllers/actividadController.js'
+import { verificarToken } from '../middleware/verificarToken.js'
+import { permitirRoles } from '../middleware/permitirRoles.js'
+import { ROLES } from '../utils/constants.js'
 
 const router = Router();
+//Aca defino quien puede modificar actividades
+const rolesQuePuedenModificarActividades = [ROLES.DOCENTE, ROLES.ADMINISTRATIVO, ROLES.ADMIN]
+//Definicion de permisos
+const filtroPermisoModificacion = [permitirRoles(...rolesQuePuedenModificarActividades)];
+//Solo usuarios con token van a acceder o modificar las actividades
+router.use(verificarToken);
 
-//Get actividades
+// GET: cualquier usuario logueado puede ver actividades
 router.get('/', actividadController.listarActividadController);
-
-// Get por id
 router.get('/:id', actividadController.obtenerActividadPorIdController);
 
-//Crear actividad
-router.post('/', actividadController.crearActividadController);
-
-//Actualizar actividad
-router.patch('/:id', actividadController.actualizarActividadController);
-
-//Eliminar actividad
-router.delete('/:id', actividadController.eliminarActividadController);
+// POST/PATCH/DELETE: solo admin, administrativo y docente
+router.post('/', ...filtroPermisoModificacion, actividadController.crearActividadController);
+router.patch('/:id', ...filtroPermisoModificacion, actividadController.actualizarActividadController);
+router.delete('/:id', ...filtroPermisoModificacion, actividadController.eliminarActividadController);
 
 export default router;

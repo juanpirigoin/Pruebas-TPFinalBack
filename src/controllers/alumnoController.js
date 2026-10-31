@@ -1,5 +1,6 @@
 import { listarAlumnoService, obtenerAlumnoPorIdService, crearAlumnoService, actualizarAlumnoService, eliminarAlumnoService } from '../services/alumnoService.js'
 
+
 export const listarAlumnoController = async (req, res) => {
     console.log("Query recibida:", req.query);
     const alumnos = await listarAlumnoService(req.query);

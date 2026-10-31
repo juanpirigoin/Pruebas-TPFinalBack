@@ -5,7 +5,7 @@ import { verificarToken } from "../middleware/verificarToken.js"
 const router = Router()
 
 router.post("/registro", authController.registrarController)
-router.post("/login", authController.loginController)
+router.post("/login", authController.loginController) //
 
 // es una ruta protegida, pasa primero por el middleware "verificarToken"
 router.get("/perfil", verificarToken, authController.perfilController)

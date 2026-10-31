@@ -1,10 +1,15 @@
-* manejar filtros en listarActividadService
+* en el get de perfil no hay que poner un id ya que lo obtenes desde el middleware VerificarToken
+* en login recibo mucha informacion de usuario??????
+
+
+* Cualquiera puede crear un usuario admin --> deberia controlar eso para que solo lo haga un admin
+* En mi caso es el que esta en el seed
+
+
 
 * agregar retunDocument: "after" en los servicios de update
 
-* en usuarioServices controlar el get segun roles
 
-* chequear verificacion de usuarios y buscar por email con password
 
 
 GAP Pensando en vertical
@@ -42,26 +47,3 @@ modelo → service → controller → ruta ---- ARMADOS, FALTA PROBAR
 → test → Swagger ----- COMPLETAR
 
 
-
-
-*** en el obtenerUsuarioPorIdService corregir los datos obtenidos---> creo que quedo bien
-
----
-
-## Pendientes marcados por el profe (respuestas profe.md)
-
-### Errores y ajustes inmediatos en código:
-* [URGENTE] Arreglar error de sintaxis en `notaService.js` (la función `alcanceNotas` quedó cortada sin cerrar llaves) y terminar su integración con `listarNotaService` y `notaController.js`.
-* Limpiar imports duplicados de modelos en `asistenciaService.js`, `evaluacionService.js` y `unidadService.js`.
-
-### Manejo de errores y queries en services:
-* Sacar los `try/catch` redundantes en los services que atrapan el error y tiran `ErrorApp` genérico (dejar que Express 5 y `manejarErrores` capturen `ValidationError` o duplicados `11000`).
-* Eliminar el casteo manual `new mongoose.Types.ObjectId(...)` en los filtros de los services para que un id mal formado devuelva 400 (`CastError`) y no 500 (`BSONError`).
-
-### Middlewares y Roles:
-* Crear middleware `permitirRoles` y atajos de conveniencia (`soloDocente`, `soloAdministrativo`).
-* Crear middleware `cargarUsuario` para buscar el usuario en la BD tras `verificarToken` y tener `idAlumno`/`idMateria` disponibles en `req.usuario`.
-
-### Lógica de Docentes y Materias:
-* En `crearUnidadService`, validar que la materia pertenezca al docente autenticado (`esSuya`).
-* Crear la ruta y controller `GET /api/materias/mias` para que el docente autenticado obtenga solo sus materias asignadas.

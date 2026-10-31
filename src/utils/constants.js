@@ -5,3 +5,5 @@ export const ROLES = Object.freeze({
     ADMINISTRATIVO: "administrativo",
     ADMIN: "admin",
 })
+
+export const ROLES_REGISTRO_PUBLICO = [ROLES.PADRE, ROLES.ALUMNO]
