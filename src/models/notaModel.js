@@ -45,3 +45,4 @@ const notaSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Nota", notaSchema);
+

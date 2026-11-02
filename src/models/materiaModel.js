@@ -22,3 +22,4 @@ const materiaSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Materia", materiaSchema);
+

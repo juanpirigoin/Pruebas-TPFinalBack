@@ -27,3 +27,4 @@ const actividadSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Actividad", actividadSchema);
+

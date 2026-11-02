@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt"
 import { ROLES } from "../utils/constants.js"
 
-
 const VUELTAS = 10
 
 const usuarioSchema = new mongoose.Schema({
@@ -60,10 +59,9 @@ const usuarioSchema = new mongoose.Schema({
     }
 });
 
-
 usuarioSchema.pre("save", async function () {
     if (!this.isModified("password")) return
-        this.password = await bcrypt.hash(this.password, VUELTAS)
+    this.password = await bcrypt.hash(this.password, VUELTAS)
 })
 
 usuarioSchema.methods.compararPassword = async function (password) {
@@ -71,3 +69,4 @@ usuarioSchema.methods.compararPassword = async function (password) {
 }
 
 export default mongoose.model("Usuario", usuarioSchema);
+

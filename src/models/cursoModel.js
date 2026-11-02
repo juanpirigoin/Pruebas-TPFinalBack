@@ -17,3 +17,4 @@ const cursoSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Curso", cursoSchema);
+

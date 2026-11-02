@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import Usuario from '../models/usuario.js'
-import Alumno from '../models/alumno.js'
-import Curso from '../models/curso.js'
+import Usuario from '../models/usuarioModel.js'
+import Alumno from '../models/alumnoModel.js'
+import Curso from '../models/cursoModel.js'
 import { ErrorApp } from '../utils/ErrorApp.js'
 
 //Get all usuarios
@@ -66,7 +66,7 @@ export const actualizarUsuarioService = async (id, usuarioData) => {
         return await Usuario.findByIdAndUpdate(
             { _id: id },
             usuarioData,
-            { new: true, runValidators: true }
+            { returnDocument: "after", runValidators: true }
         )
     } catch (error) {
         if (error.code === 11000) {

@@ -23,16 +23,10 @@ const alumnoSchema = new mongoose.Schema({
         minlength: [8, "El DNI debe tener al menos 8 caracteres"],
         maxlength: [10, "El DNI no puede exceder los 10 caracteres"]
     },
-
-    //este campo no esta definido en el diagrama de la base de datos, pero lo agrego para poder filtrar por edad
-    
-   fechaNacimiento: {
+    fechaNacimiento: {
         type: Date,
         required: [true, "La fecha de nacimiento es obligatoria"],     
     },
-
-    //ver este campo si se pone asi
-
     idCurso: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Curso",
@@ -41,3 +35,4 @@ const alumnoSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Alumno", alumnoSchema);
+

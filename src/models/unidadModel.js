@@ -22,3 +22,4 @@ const unidadSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Unidad", unidadSchema);
+

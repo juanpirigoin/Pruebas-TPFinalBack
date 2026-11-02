@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import Asistencia from '../models/asistencia.js'
+import Asistencia from '../models/asistenciaModel.js'
 import { ROLES } from '../utils/constants.js'
 
 const alcanceDeAsistencias = async (usuario) => {

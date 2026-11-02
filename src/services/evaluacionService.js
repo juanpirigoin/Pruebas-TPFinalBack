@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import Evaluacion from '../models/evaluacion.js'
-import Unidad from '../models/unidad.js'
+import Evaluacion from '../models/evaluacionModel.js'
+import Unidad from '../models/unidadModel.js'
 import { ErrorApp } from '../utils/ErrorApp.js'
 import { ROLES } from '../utils/constants.js'
 

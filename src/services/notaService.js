@@ -1,5 +1,5 @@
 
-import Nota from '../models/nota.js'
+import Nota from '../models/notaModel.js'
 import { ROLES } from "../utils/constants.js"
 import { ErrorApp } from '../utils/ErrorApp.js'
 

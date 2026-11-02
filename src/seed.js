@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import { connectDB } from "./db.js";
-import Curso from "./models/curso.js";
-import Alumno from "./models/alumno.js";
-import Usuario from "./models/usuario.js";
-import Materia from "./models/materia.js";
-import Unidad from "./models/unidad.js";
-import Evaluacion from "./models/evaluacion.js";
-import Actividad from "./models/actividad.js";
-import Asistencia from "./models/asistencia.js";
-import Nota from "./models/nota.js";
+import Curso from "./models/cursoModel.js";
+import Alumno from "./models/alumnoModel.js";
+import Usuario from "./models/usuarioModel.js";
+import Materia from "./models/materiaModel.js";
+import Unidad from "./models/unidadModel.js";
+import Evaluacion from "./models/evaluacionModel.js";
+import Actividad from "./models/actividadModel.js";
+import Asistencia from "./models/asistenciaModel.js";
+import Nota from "./models/notaModel.js";
 import { ROLES } from "./utils/constants.js";
 
 await connectDB();

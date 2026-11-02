@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import Materia from '../models/materia.js'
+import Materia from '../models/materiaModel.js'
 
 // Get all materias por curso
 export const listarMateriaService = async ({ idCurso } = {}) => {

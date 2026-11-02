@@ -1,4 +1,4 @@
-import Usuario from "../models/usuario.js"
+import Usuario from "../models/usuarioModel.js"
 import { ErrorApp } from "../utils/ErrorApp.js"
 
 export const cargarUsuario = async (req, res, next) => {

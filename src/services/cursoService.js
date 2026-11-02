@@ -1,4 +1,4 @@
-import Curso from '../models/curso.js'
+import Curso from '../models/cursoModel.js'
 
 // Get all cursos
 export const listarCursoService = async () => {
