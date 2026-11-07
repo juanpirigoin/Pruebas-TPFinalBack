@@ -10,14 +10,14 @@ const usuarioSchema = new mongoose.Schema({
         required: [true, "El nombre es obligatorio"],
         trim: true,
         minLength: [3, "El nombre necesita al menos 3 caracteres"],
-        maxLength: [100, "El nombre no puede ser mayor a 100 caracteres"]
+        maxLength: [50, "El nombre no puede ser mayor a 50 caracteres"]
     },
     apellido: {
         type: String,
         required: [true, "El apellido es obligatorio"],
         trim: true,
         minLength: [3, "El apellido necesita al menos 3 caracteres"],
-        maxLength: [100, "El apellido no puede ser mayor a 100 caracteres"]
+        maxLength: [50, "El apellido no puede ser mayor a 50 caracteres"]
     },
     email: {
         type: String,

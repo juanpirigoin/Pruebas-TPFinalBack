@@ -1,8 +1,7 @@
 import mongoose from 'mongoose'
 import Actividad from '../models/actividadModel.js'
 import Unidad from '../models/unidadModel.js'
-import { ErrorApp } from '../utils/ErrorApp.js'
-import { ROLES } from '../utils/constants.js'
+import { obtenerFiltroAlcanceUnidad, validarUnidadDocente } from '../utils/alcanceHelper.js'
 
 // Estructuración de actividades
 const formatearActividad = actividad => ({
@@ -15,48 +14,15 @@ const formatearActividad = actividad => ({
     unidad: actividad.idUnidad
 });
 
-const alcanceDeActividades = async (usuario) => {
-    switch (usuario.rol) {
-        case ROLES.DOCENTE: {
-            const unidades = await Unidad.find({ idMateria: { $in: usuario.idMateria } }).select("_id");
-            const idsUnidades = unidades.map(u => u._id);
-            return { idUnidad: { $in: idsUnidades } };
-        }
-        default:
-            return {};
-    }
-};
-
-const validarUnidadDocente = async (idUnidad, usuario) => {
-    if (usuario.rol !== ROLES.DOCENTE) return;
-
-    if (!idUnidad) {
-        throw new ErrorApp("La unidad es obligatoria", 400);
-    }
-
-    const unidad = await Unidad.findById(idUnidad);
-    if (!unidad) {
-        throw new ErrorApp("Unidad no encontrada", 404);
-    }
-
-    const esMateriaValida = usuario.idMateria.some(
-        m => m.toString() === unidad.idMateria.toString()
-    );
-
-    if (!esMateriaValida) {
-        throw new ErrorApp("No tiene permisos para operar sobre las actividades de esta materia", 403);
-    }
-};
-
 // Get todas las actividades por unidad (con filtro de alcance)
 export const listarActividadService = async (usuario, filtros = {}) => {
     const { idUnidad, ...otrosFiltros } = filtros;
-    const filtroAlcance = await alcanceDeActividades(usuario);
+    const filtroAlcance = await obtenerFiltroAlcanceUnidad(usuario);
     const filtro = { ...otrosFiltros };
 
     if (idUnidad) {
-        if (usuario.rol === ROLES.DOCENTE) {
-            const idsPermitidos = (filtroAlcance.idUnidad?.$in || []).map(id => id.toString());
+        if (filtroAlcance.idUnidad?.$in) {
+            const idsPermitidos = filtroAlcance.idUnidad.$in.map(id => id.toString());
             if (!idsPermitidos.includes(idUnidad.trim())) {
                 return [];
             }
@@ -76,7 +42,7 @@ export const listarActividadService = async (usuario, filtros = {}) => {
 
 // Get actividad por id
 export const obtenerActividadPorIdService = async (id, usuario) => {
-    const filtroAlcance = await alcanceDeActividades(usuario);
+    const filtroAlcance = await obtenerFiltroAlcanceUnidad(usuario);
     const actividad = await Actividad.findOne({ _id: id, ...filtroAlcance })
         .populate("idUnidad", "nombre")
         .lean();
@@ -90,17 +56,17 @@ export const obtenerActividadPorIdService = async (id, usuario) => {
 
 // Create actividad
 export const crearActividadService = async (actividadData, usuario) => {
-    await validarUnidadDocente(actividadData.idUnidad, usuario);
+    await validarUnidadDocente(actividadData.idUnidad, usuario, "las actividades");
     return await Actividad.create(actividadData);
 };
 
 // Update actividad
 export const actualizarActividadService = async (id, actividadData, usuario) => {
     if (actividadData.idUnidad) {
-        await validarUnidadDocente(actividadData.idUnidad, usuario);
+        await validarUnidadDocente(actividadData.idUnidad, usuario, "las actividades");
     }
 
-    const filtroAlcance = await alcanceDeActividades(usuario);
+    const filtroAlcance = await obtenerFiltroAlcanceUnidad(usuario);
 
     return await Actividad.findOneAndUpdate(
         {
@@ -117,7 +83,7 @@ export const actualizarActividadService = async (id, actividadData, usuario) => 
 
 // Delete actividad
 export const eliminarActividadService = async (id, usuario) => {
-    const filtroAlcance = await alcanceDeActividades(usuario);
+    const filtroAlcance = await obtenerFiltroAlcanceUnidad(usuario);
 
     return await Actividad.findOneAndDelete({
         _id: id,

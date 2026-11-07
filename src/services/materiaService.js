@@ -1,18 +1,30 @@
 import mongoose from 'mongoose'
 import Materia from '../models/materiaModel.js'
+import Curso from '../models/cursoModel.js'
+import { obtenerMateriasPermitidasPorUsuario } from '../utils/alcanceHelper.js'
 
-// Get all materias por curso
-export const listarMateriaService = async ({ idCurso } = {}) => {
-    const filtro = {};
+const alcanceDeMaterias = async (usuario) => {
+    const materiasPermitidas = await obtenerMateriasPermitidasPorUsuario(usuario);
+    if (materiasPermitidas === null) {
+        return {};
+    }
+    return { _id: { $in: materiasPermitidas } };
+};
+
+// Get all materias por curso (con filtro de alcance)
+export const listarMateriaService = async (usuario, { idCurso } = {}) => {
+    const filtroAlcance = await alcanceDeMaterias(usuario);
+    const filtro = { ...filtroAlcance };
     if (idCurso) {
         filtro.idCurso = new mongoose.Types.ObjectId(idCurso.trim());
     }
     return await Materia.find(filtro).populate("idCurso", "nombre nivel turno");
 }
 
-// Get materia por id
-export const obtenerMateriaPorIdService = async (id) => {
-    return await Materia.findById(id).populate("idCurso", "nombre nivel turno");
+// Get materia por id (con filtro de alcance)
+export const obtenerMateriaPorIdService = async (id, usuario) => {
+    const filtroAlcance = await alcanceDeMaterias(usuario);
+    return await Materia.findOne({ _id: id, ...filtroAlcance }).populate("idCurso", "nombre nivel turno");
 }
 
 // Create materia

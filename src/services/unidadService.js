@@ -5,6 +5,7 @@ import Actividad from '../models/actividadModel.js'
 import Evaluacion from '../models/evaluacionModel.js'
 import { ErrorApp } from '../utils/ErrorApp.js'
 import { ROLES } from '../utils/constants.js'
+import { obtenerMateriasPermitidasPorUsuario } from '../utils/alcanceHelper.js'
 
 // Estructuración de unidades
 const formatearUnidad = (unidad, actividades = null, evaluaciones = null) => {
@@ -27,12 +28,11 @@ const formatearUnidad = (unidad, actividades = null, evaluaciones = null) => {
 };
 
 const alcanceDeUnidades = async (usuario) => {
-    switch (usuario.rol) {
-        case ROLES.DOCENTE:
-            return { idMateria: { $in: usuario.idMateria } };
-        default:
-            return {};
+    const materiasPermitidas = await obtenerMateriasPermitidasPorUsuario(usuario);
+    if (materiasPermitidas === null) {
+        return {};
     }
+    return { idMateria: { $in: materiasPermitidas } };
 };
 
 const validarMateriaDocente = (idMateria, usuario) => {
@@ -58,8 +58,8 @@ export const listarUnidadService = async (usuario, filtros = {}) => {
     const filtro = { ...otrosFiltros };
 
     if (idMateria) {
-        if (usuario.rol === ROLES.DOCENTE) {
-            const idsPermitidos = (usuario.idMateria || []).map(id => id.toString());
+        if (filtroAlcance.idMateria?.$in) {
+            const idsPermitidos = filtroAlcance.idMateria.$in.map(id => id.toString());
             if (!idsPermitidos.includes(idMateria.trim())) {
                 return [];
             }

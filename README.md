@@ -106,7 +106,7 @@ Pruebas-TPFinalBack/
 
 ---
 
-## 3. Tecnologías Utilizadas
+## 2. Tecnologías Utilizadas
 
 | Tecnología / Dependencia | Versión | Propósito en el proyecto |
 |---|---|---|
@@ -120,25 +120,7 @@ Pruebas-TPFinalBack/
 
 ---
 
-## 4. Esquema de la Base de Datos
-
-### Diagrama Entidad-Relación
-
-```mermaid
-erDiagram
-    CURSO ||--o{ ALUMNO : contiene
-    CURSO ||--o{ MATERIA : contiene
-    MATERIA ||--o{ UNIDAD : organiza
-    UNIDAD ||--o{ ACTIVIDAD : agrupa
-    UNIDAD ||--o{ EVALUACION : agrupa
-    ALUMNO ||--o{ ASISTENCIA : registra
-    ALUMNO ||--o{ NOTA : obtiene
-    MATERIA ||--o{ NOTA : califica
-    ACTIVIDAD ||--o{ NOTA : califica_opcional
-    EVALUACION ||--o{ NOTA : califica_opcional
-    USUARIO }o--o{ ALUMNO : vincula_hijo_o_propio
-    USUARIO }o--o{ MATERIA : vincula_materias_docente
-```
+## 3. Esquema de la Base de Datos
 
 ### Estructura de las Colecciones
 
@@ -146,8 +128,8 @@ erDiagram
 | Campo | Tipo | Validaciones / Restricciones |
 |---|---|---|
 | `_id` | ObjectId | Autogenerado por MongoDB |
-| `nombre` | String | Requerido, mín 3 caracteres, máx 100 caracteres |
-| `apellido` | String | Requerido, mín 3 caracteres, máx 100 caracteres |
+| `nombre` | String | Requerido, mín 3 caracteres, máx 50 caracteres |
+| `apellido` | String | Requerido, mín 3 caracteres, máx 50 caracteres |
 | `email` | String | Requerido, único, formato email validado por regex |
 | `password` | String | Requerido, hasheado con bcrypt en pre-save, `select: false` |
 | `rol` | String | Requerido, enum: `["admin", "administrativo", "docente", "alumno", "padre"]` |
@@ -229,7 +211,7 @@ erDiagram
 
 ---
 
-## 5. Instrucciones de Instalación y Ejecución
+## 4. Instrucciones de Instalación y Ejecución
 
 ### Prerrequisitos
 * Node.js v18 o superior instalado.
@@ -295,7 +277,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-## 6. Listado Completo de Endpoints
+## 5. Listado Completo de Endpoints
 
 > 🔒 = Requiere encabezado `Authorization: Bearer <TOKEN>`
 
@@ -311,8 +293,8 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/usuarios` | 🔒 Todos | Lista todos los usuarios registrados (contraseñas omitidas) |
-| GET | `/api/usuarios/:id` | 🔒 Todos | Obtiene un usuario específico por su ID |
+| GET | `/api/usuarios` | 🔒 Admin / Administrativo | Lista todos los usuarios registrados (contraseñas omitidas) |
+| GET | `/api/usuarios/:id` | 🔒 Admin / Administrativo | Obtiene un usuario específico por su ID |
 | POST | `/api/usuarios` | 🔒 Admin / Administrativo | Crea un usuario interno (permite asignar roles docentes y administrativos) |
 | PATCH | `/api/usuarios/:id` | 🔒 Admin / Administrativo | Actualiza datos de un usuario |
 | DELETE | `/api/usuarios/:id` | 🔒 Admin / Administrativo | Elimina un usuario del sistema |
@@ -331,8 +313,8 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/alumnos` | 🔒 Gestión Escolar | Lista alumnos (filtro opcional por curso: `?idCurso=<id>`) |
-| GET | `/api/alumnos/:id` | 🔒 Gestión Escolar | Obtiene la ficha de datos de un alumno con su curso populado |
+| GET | `/api/alumnos` | 🔒 Admin / Administrativo / Docente | Lista alumnos (filtro opcional por curso: `?idCurso=<id>`) |
+| GET | `/api/alumnos/:id` | 🔒 Admin / Administrativo / Docente | Obtiene la ficha de datos de un alumno con su curso populado |
 | POST | `/api/alumnos` | 🔒 Admin / Administrativo | Matricula un nuevo alumno |
 | PATCH | `/api/alumnos/:id` | 🔒 Admin / Administrativo | Modifica datos del alumno |
 | DELETE | `/api/alumnos/:id` | 🔒 Admin / Administrativo | Da de baja a un alumno |
@@ -341,18 +323,18 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/materias` | 🔒 Todos | Lista materias (filtro opcional `?idCurso=<id>`) |
-| GET | `/api/materias/:id` | 🔒 Todos | Obtiene una materia con su curso populado |
+| GET | `/api/materias` | 🔒 Según alcance | Lista materias según alcance (docente: sus materias; alumno/padre: las de su curso) |
+| GET | `/api/materias/:id` | 🔒 Según alcance | Obtiene una materia con su curso populado dentro de su alcance |
 | POST | `/api/materias` | 🔒 Admin / Administrativo | Crea una materia asociada a un curso |
 | PATCH | `/api/materias/:id` | 🔒 Admin / Administrativo | Modifica una materia |
 | DELETE | `/api/materias/:id` | 🔒 Admin / Administrativo | Elimina una materia |
 
-### 📖 Unidades Temáticas (`/api/unidades`)
+### 📖 Unidades (`/api/unidades`)
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/unidades` | 🔒 Alcance | Lista unidades (filtro `?idMateria=<id>`). Docentes ven solo sus unidades |
-| GET | `/api/unidades/:id` | 🔒 Alcance | Obtiene la unidad con sus **actividades y evaluaciones** asociadas |
+| GET | `/api/unidades` | 🔒 Según alcance | Lista unidades (filtro `?idMateria=<id>`). Docentes y alumnos/padres ven solo las de su alcance |
+| GET | `/api/unidades/:id` | 🔒 Según alcance | Obtiene la unidad con sus **actividades y evaluaciones** asociadas |
 | POST | `/api/unidades` | 🔒 Admin / Adminis. / Docente | Crea una unidad (docente limitado a sus materias) |
 | PATCH | `/api/unidades/:id` | 🔒 Admin / Adminis. / Docente | Modifica una unidad dentro de su alcance |
 | DELETE | `/api/unidades/:id` | 🔒 Admin / Adminis. / Docente | Elimina una unidad dentro de su alcance |
@@ -361,8 +343,8 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/actividades` | 🔒 Alcance | Lista actividades (filtro `?idUnidad=<id>`). Docentes ven solo las de sus materias |
-| GET | `/api/actividades/:id` | 🔒 Alcance | Detalle de una actividad dentro de su alcance |
+| GET | `/api/actividades` | 🔒 Según alcance | Lista actividades (filtro `?idUnidad=<id>`). Docente y alumno/padre limitados a su alcance |
+| GET | `/api/actividades/:id` | 🔒 Según alcance | Detalle de una actividad dentro de su alcance |
 | POST | `/api/actividades` | 🔒 Admin / Adminis. / Docente | Crea una actividad vinculada a una unidad |
 | PATCH | `/api/actividades/:id` | 🔒 Admin / Adminis. / Docente | Actualiza una actividad |
 | DELETE | `/api/actividades/:id` | 🔒 Admin / Adminis. / Docente | Elimina una actividad |
@@ -371,8 +353,8 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/evaluaciones` | 🔒 Alcance | Lista evaluaciones (filtro `?idUnidad=<id>`). Docente limitado a sus materias |
-| GET | `/api/evaluaciones/:id` | 🔒 Alcance | Detalle de una evaluación dentro de su alcance |
+| GET | `/api/evaluaciones` | 🔒 Según alcance | Lista evaluaciones (filtro `?idUnidad=<id>`). Docente y alumno/padre limitados a su alcance |
+| GET | `/api/evaluaciones/:id` | 🔒 Según alcance | Detalle de una evaluación dentro de su alcance |
 | POST | `/api/evaluaciones` | 🔒 Admin / Adminis. / Docente | Crea una evaluación vinculada a una unidad |
 | PATCH | `/api/evaluaciones/:id` | 🔒 Admin / Adminis. / Docente | Actualiza una evaluación |
 | DELETE | `/api/evaluaciones/:id` | 🔒 Admin / Adminis. / Docente | Elimina una evaluación |
@@ -381,8 +363,8 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/notas` | 🔒 Alcance | Lista notas según alcance (Docente: sus materias; Padre/Alumno: su alumno; Admin: todas) |
-| GET | `/api/notas/:id` | 🔒 Alcance | Obtiene nota con alumno, materia, curso y actividad/evaluación populados |
+| GET | `/api/notas` | 🔒 Según alcance | Lista notas según alcance (Docente: sus materias; Padre/Alumno: su alumno; Admin: todas) |
+| GET | `/api/notas/:id` | 🔒 Según alcance | Obtiene nota con alumno, materia, curso y actividad/evaluación populados |
 | POST | `/api/notas` | 🔒 Admin / Adminis. / Docente | Carga una calificación (docente restringido a sus materias) |
 | PATCH | `/api/notas/:id` | 🔒 Admin / Adminis. / Docente | Modifica calificación (impide reasignación a materias ajenas) |
 | DELETE | `/api/notas/:id` | 🔒 Admin / Adminis. / Docente | Elimina calificación dentro del alcance |
@@ -391,17 +373,17 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 | Método | Ruta | Acceso | Descripción |
 |---|---|:---:|---|
-| GET | `/api/asistencias` | 🔒 Alcance | Lista asistencias (filtro `?idAlumno=<id>`). Padre/Alumno solo ven sus asistencias |
-| GET | `/api/asistencias/:id` | 🔒 Alcance | Detalle de asistencia |
+| GET | `/api/asistencias` | 🔒 Según alcance | Lista asistencias (filtro `?idAlumno=<id>`). Padre/Alumno solo ven sus asistencias |
+| GET | `/api/asistencias/:id` | 🔒 Según alcance | Detalle de asistencia |
 | POST | `/api/asistencias` | 🔒 Admin / Administrativo | Registra asistencia de un alumno (`presente`, `ausente`, `tarde`) |
 | PATCH | `/api/asistencias/:id` | 🔒 Admin / Administrativo | Modifica el estado de asistencia |
 | DELETE | `/api/asistencias/:id` | 🔒 Admin / Administrativo | Elimina un registro de asistencia |
 
 ---
 
-## 7. Ejemplos de Datos Mock (JSON) para Solicitudes y Respuestas
+## 6. Ejemplos de Datos Mock (JSON) para Solicitudes y Respuestas
 
-### 7.1. Registro Público (`POST /api/auth/registro`)
+### 6.1. Registro Público (`POST /api/auth/registro`)
 **Body Solicitud:**
 ```json
 {
@@ -428,7 +410,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.2. Inicio de Sesión (`POST /api/auth/login`)
+### 6.2. Inicio de Sesión (`POST /api/auth/login`)
 **Body Solicitud:**
 ```json
 {
@@ -452,7 +434,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.3. Crear Curso (`POST /api/cursos`) 🔒
+### 6.3. Crear Curso (`POST /api/cursos`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -475,7 +457,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.4. Crear Alumno (`POST /api/alumnos`) 🔒
+### 6.4. Crear Alumno (`POST /api/alumnos`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -500,7 +482,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.5. Crear Materia (`POST /api/materias`) 🔒
+### 6.5. Crear Materia (`POST /api/materias`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -521,7 +503,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.6. Crear Unidad (`POST /api/unidades`) 🔒
+### 6.6. Crear Unidad (`POST /api/unidades`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -542,7 +524,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.7. Detalle de Unidad con Actividades y Evaluaciones (`GET /api/unidades/:id`) 🔒
+### 6.7. Detalle de Unidad con Actividades y Evaluaciones (`GET /api/unidades/:id`) 🔒
 **Respuesta `200 OK` (Populada en paralelo):**
 ```json
 {
@@ -574,7 +556,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.8. Crear Nota (`POST /api/notas`) 🔒
+### 6.8. Crear Nota (`POST /api/notas`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -603,7 +585,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.9. Modificar Nota (`PATCH /api/notas/:id`) 🔒
+### 6.9. Modificar Nota (`PATCH /api/notas/:id`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -626,7 +608,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-### 7.10. Registrar Asistencia (`POST /api/asistencias`) 🔒
+### 6.10. Registrar Asistencia (`POST /api/asistencias`) 🔒
 **Body Solicitud:**
 ```json
 {
@@ -647,7 +629,7 @@ El servidor estará accesible en: `http://localhost:3000`.
 
 ---
 
-## 8. Manejo de Errores y Códigos de Estado
+## 7. Manejo de Errores y Códigos de Estado
 
 El middleware `src/middleware/manejarErrores.js` estandariza todas las respuestas de error en un objeto JSON predecible:
 
@@ -705,7 +687,7 @@ El middleware `src/middleware/manejarErrores.js` estandariza todas las respuesta
 
 ---
 
-## 9. Funcionalidades Implementadas y a Futuro
+## 8. Funcionalidades Implementadas y a Futuro
 
 ### Implementadas:
 - [x] CRUD completo de todas las colecciones del dominio educativo.
@@ -727,7 +709,7 @@ El middleware `src/middleware/manejarErrores.js` estandariza todas las respuesta
 
 ---
 
-## 10. Configuración de Variables de Entorno (.env)
+## 9. Configuración de Variables de Entorno (.env)
 
 El proyecto incluye el archivo [`c:\Users\JuanP\Pruebas-TPFinalBack\.env.example`](file:///c:/Users/JuanP/Pruebas-TPFinalBack/.env.example) con la configuración base requerida:
 

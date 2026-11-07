@@ -5,20 +5,20 @@ import { permitirRoles } from '../middleware/permitirRoles.js'
 import { ROLES } from '../utils/constants.js'
 
 const router = Router();
-//Aca defino quien puede modificar usuarios
-const rolesQuePuedenModificarUsuarios = [ROLES.ADMINISTRATIVO, ROLES.ADMIN]
-//Definicion de permisos
-const filtroPermisoModificacion = [permitirRoles(...rolesQuePuedenModificarUsuarios)];
-//Solo usuarios con token van a acceder o modificar las usuarios
+// Roles autorizados para gestionar usuarios (lectura y modificación)
+const rolesAutorizados = [ROLES.ADMIN, ROLES.ADMINISTRATIVO];
+const filtroPermisos = [permitirRoles(...rolesAutorizados)];
+
+// Solo usuarios con token van a acceder
 router.use(verificarToken);
 
-// GET: cualquier usuario logueado puede ver usuarios
-router.get('/', usuarioController.listarUsuarioController);
-router.get('/:id', usuarioController.obtenerUsuarioPorIdController);
+// GET: solo admin y administrativo
+router.get('/', ...filtroPermisos, usuarioController.listarUsuarioController);
+router.get('/:id', ...filtroPermisos, usuarioController.obtenerUsuarioPorIdController);
 
 // POST/PATCH/DELETE: solo admin y administrativo
-router.post('/', ...filtroPermisoModificacion, usuarioController.crearUsuarioController);
-router.patch('/:id', ...filtroPermisoModificacion, usuarioController.actualizarUsuarioController);
-router.delete('/:id', ...filtroPermisoModificacion, usuarioController.eliminarUsuarioController);
+router.post('/', ...filtroPermisos, usuarioController.crearUsuarioController);
+router.patch('/:id', ...filtroPermisos, usuarioController.actualizarUsuarioController);
+router.delete('/:id', ...filtroPermisos, usuarioController.eliminarUsuarioController);
 
 export default router;
