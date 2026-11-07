@@ -227,18 +227,10 @@ npm install
 
 ### Paso 2: Configurar las variables de entorno
 
-Copia la plantilla `.env.example` a un archivo `.env`:
+Copia la plantilla `.env.example` a un archivo `.env` y configura tus variables locales:
 
 ```bash
 cp .env.example .env
-```
-
-Edita `.env` con tus credenciales:
-```env
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/tp_final_backend
-JWT_SECRET=clave-secreta-de-ejemplo-utn-backend
-JWT_EXPIRATION=2h
 ```
 
 ### Paso 3: Poblar la base de datos (Seed automático)
@@ -711,21 +703,14 @@ El middleware `src/middleware/manejarErrores.js` estandariza todas las respuesta
 
 ## 9. Configuración de Variables de Entorno (.env)
 
-El proyecto incluye el archivo [`c:\Users\JuanP\Pruebas-TPFinalBack\.env.example`](file:///c:/Users/JuanP/Pruebas-TPFinalBack/.env.example) con la configuración base requerida:
+Las variables requeridas para ejecutar el proyecto se configuran en el archivo `.env` a partir de la plantilla [`.env.example`](file:///c:/Users/JuanP/Pruebas-TPFinalBack/.env.example):
 
-```env
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/tp_final_backend
-JWT_SECRET=tu-clave-secreta-para-firmar-tokens
-JWT_EXPIRATION=30m
-```
-
-| Variable | Tipo | Descripción | Valor por Defecto |
-|---|---|---|---|
-| `PORT` | Número | Puerto TCP en el que escucha el servidor | `3000` |
-| `MONGO_URI` | Cadena | URI de conexión a la instancia de MongoDB | `mongodb://localhost:27017/tp_final_backend` |
-| `JWT_SECRET` | Cadena | Clave secreta para firmar y verificar tokens JWT | `secreto-de-clase-no-usar-en-produccion` |
-| `JWT_EXPIRATION` | Cadena | Tiempo de expiración del token (ej. `30m`, `2h`, `7d`) | `30m` |
+| Variable | Tipo | Descripción |
+|---|---|---|
+| `PORT` | Número | Puerto TCP en el que escucha el servidor Express |
+| `MONGO_URI` | Cadena | URI de conexión a la base de datos MongoDB |
+| `JWT_SECRET` | Cadena | Clave secreta para la firma y verificación de tokens JWT |
+| `JWT_EXPIRATION` | Cadena | Tiempo de validez del token de autenticación (ej. `30m`, `2h`, `7d`) |
 
 ---
 *Proyecto presentado para la evaluación del Trabajo Práctico Final del Curso de Backend Developer — UTN BA (Centro de e-Learning).*
