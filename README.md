@@ -159,7 +159,7 @@ Pruebas-TPFinalBack/
 |---|---|---|
 | `_id` | ObjectId | Autogenerado |
 | `nombre` | String | Requerido, mín 3 caracteres, máx 50 |
-| `area` | String | Requerido, mín 3 caracteres, máx 50 (ej. `"Exactas"`) |
+| `area` | String | Opcional, mín 3 caracteres, máx 50 (ej. `"Exactas"`) |
 | `idCurso` | ObjectId | **Referencia a `Curso`**, requerido |
 
 #### 5. `unidades`
@@ -167,7 +167,7 @@ Pruebas-TPFinalBack/
 |---|---|---|
 | `_id` | ObjectId | Autogenerado |
 | `nombre` | String | Requerido, mín 3 caracteres, máx 50 |
-| `descripcion` | String | Opcional, máx 300 caracteres |
+| `descripcion` | String | Opcional, mín 3, máx 300 caracteres |
 | `idMateria` | ObjectId | **Referencia a `Materia`**, requerido |
 
 #### 6. `actividades`
@@ -193,7 +193,7 @@ Pruebas-TPFinalBack/
 |---|---|---|
 | `_id` | ObjectId | Autogenerado |
 | `nombre` | String | Opcional, mín 3, máx 50 |
-| `tipo` | String | Requerido, mín 3, máx 20 (`"actividad"`, `"evaluacion"`, `"cierre trimestre"`) |
+| `tipo` | String | Requerido, mín 3, máx 20 (ej. `"actividad"`, `"evaluacion"`, `"cierre trimestre"`) |
 | `valor` | Number | Requerido, valor numérico entre `0` y `10` |
 | `fecha` | Date | Requerido |
 | `idMateria` | ObjectId | **Referencia a `Materia`**, requerido |
@@ -227,11 +227,21 @@ npm install
 
 ### Paso 2: Configurar las variables de entorno
 
-Copia la plantilla `.env.example` a un archivo `.env` y configura tus variables locales:
+Por motivos de seguridad y buenas prácticas, el archivo `.env` no se incluye en el repositorio. **Las variables de entorno listas para la corrección/evaluación están provistas en el documento de Google Drive adjunto a la entrega.**
 
-```bash
-cp .env.example .env
-```
+1. Crea un archivo llamado `.env` en la raíz del proyecto (al mismo nivel que `package.json`).
+2. Copia y pega dentro del `.env` las variables provistas en el documento de Google Drive.
+
+> Alternativamente, puedes generar el archivo copiando la plantilla de ejemplo y luego editar sus valores:
+> - **En Windows (CMD / PowerShell):**
+>   ```bash
+>   copy .env.example .env
+>   ```
+> - **En Linux / macOS / Git Bash:**
+>   ```bash
+>   cp .env.example .env
+>   ```
+> Para más detalle sobre el propósito de cada variable, consulta la [Sección 9](#9-configuración-de-variables-de-entorno-env).
 
 ### Paso 3: Poblar la base de datos (Seed automático)
 
@@ -441,9 +451,7 @@ El servidor estará accesible en: `http://localhost:3000`.
   "_id": "6725a1b2c3d4e5f6a7b8c010",
   "nombre": "3°A",
   "nivel": "secundario",
-  "turno": "mañana",
-  "createdAt": "2026-11-01T18:00:00.000Z",
-  "updatedAt": "2026-11-01T18:00:00.000Z"
+  "turno": "mañana"
 }
 ```
 
@@ -682,28 +690,37 @@ El middleware `src/middleware/manejarErrores.js` estandariza todas las respuesta
 ## 8. Funcionalidades Implementadas y a Futuro
 
 ### Implementadas:
-- [x] CRUD completo de todas las colecciones del dominio educativo.
-- [x] Separación estricta de responsabilidades (Routes $\to$ Controllers $\to$ Services $\to$ Models).
-- [x] Encriptación segura de contraseñas con `bcrypt` (10 rondas de salt).
-- [x] Autenticación mediante tokens JWT firmados con expiración configurable.
-- [x] Control de acceso granular por roles (`ADMIN`, `ADMINISTRATIVO`, `DOCENTE`, `ALUMNO`, `PADRE`).
-- [x] Control de alcance de datos (los docentes no pueden alterar ni ver notas/unidades de materias ajenas; padres e hijos solo acceden a sus propios registros).
-- [x] Populaciones compuestas con `populate()` y lecturas enriquecidas concurrentes (`Promise.all`).
-- [x] Middleware global para captura y traducción de errores de Mongoose.
-- [x] Script de Seed interactivo con datos para pruebas instantáneas.
+* **CRUD completo**: Gestión integral de todas las colecciones del dominio educativo.
+* **Separación de responsabilidades**: Arquitectura en capas desacopladas (Rutas $\to$ Controladores $\to$ Servicios $\to$ Modelos).
+* **Seguridad de contraseñas**: Encriptación con `bcrypt` (10 rondas de salt).
+* **Autenticación con JWT**: Emisión y validación de tokens con expiración configurable.
+* **Control de acceso por roles (RBAC)**: Permisos diferenciados para `admin`, `administrativo`, `docente`, `alumno` y `padre`.
+* **Control de alcance de datos**: Restricción de visibilidad y edición según el usuario autenticado (ej. docentes sólo a sus materias; padres e hijos sólo a sus registros).
+* **Consultas enriquecidas**: Populaciones con `populate()` y operaciones concurrentes optimizadas con `Promise.all()`.
+* **Manejo centralizado de errores**: Middleware global para captura y normalización de excepciones de Mongoose y reglas de negocio.
+* **Carga inicial de datos**: Script de Seed para inicializar la base de datos con un conjunto coherente de prueba.
 
-### Funcionalidades a Futuro:
-- [ ] Paginación y búsqueda textual en listados voluminosos de alumnos y notas.
-- [ ] Subida de archivos y adjuntos (PDFs de trabajos prácticos o enunciados de exámenes).
-- [ ] Documentación interactiva de la API con Swagger / OpenAPI.
-- [ ] Generación automática de boletines escolares en PDF.
-- [ ] Suite de tests automatizados (unitarios y de integración) con Jest y Supertest.
+### Próximas Mejoras (Roadmap):
+
+#### Gestión Académica y Funcionalidades:
+* **Estadísticas y promedios**: Módulo analítico para calcular promedios por materia/período lectivo y porcentajes de presentismo general y por curso.
+* **Asistencia por materia**: Registro de presentismo diferenciado por materia y bloque horario.
+* **Integración con recursos pedagógicos**: Incorporación del campo `link` en unidades, actividades y evaluaciones para referenciar material alojado en Google Drive o la nube.
+* **Sistema de avisos por correo**: Notificaciones automáticas por email ante límites de inasistencias o bajas calificaciones.
+* **Exportación de boletines**: Generación de reportes de calificaciones en formato PDF listos para imprimir o compartir.
+
+#### Calidad Técnica y Arquitectura:
+* **Documentación interactiva**: Integración de Swagger / OpenAPI para consultar y probar la API desde una interfaz web.
+* **Tests automatizados**: Suite de pruebas unitarias y de integración con Jest y Supertest.
 
 ---
 
 ## 9. Configuración de Variables de Entorno (.env)
 
-Las variables requeridas para ejecutar el proyecto se configuran en el archivo `.env` a partir de la plantilla [`.env.example`](file:///c:/Users/JuanP/Pruebas-TPFinalBack/.env.example):
+> **Nota para el evaluador / docente:**  
+> Por cuestiones de seguridad de credenciales (base de datos y claves criptográficas), el archivo `.env` se mantiene fuera del repositorio (`.gitignore`). **Los valores exactos y operativos para levantar el proyecto se encuentran detallados en el documento de Google Drive de la entrega.**
+
+Las variables requeridas para ejecutar el proyecto se configuran en el archivo `.env` tomando como referencia la plantilla [`.env.example`](./.env.example):
 
 | Variable | Tipo | Descripción |
 |---|---|---|
